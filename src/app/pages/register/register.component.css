@@ -1,0 +1,68 @@
+.main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.photo-container {
+  background-image: url('../../../assets/images/logincity.jpg'); /* Correct path to your image */
+  background-size: cover; /* Ensure the image covers the entire background */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  width: 50%;
+  display: flex;
+  height: 100vh;
+  border-left:  1px solid #e0e0e0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-container {
+  width: 300px;
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.register-form {
+  width: 400px;
+  padding: 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #1081c738;
+}
+
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-container div {
+  margin-bottom: 25px;
+}
+
+.register-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.register-container input {
+  width: 100%;
+  padding: 5px;  /* Adjust padding for smaller input fields */
+  font-size: 14px;  /* Adjust font size for smaller input fields */
+  box-sizing: border-box;
+}
+
+::ng-deep .p-button {
+  width: 100%;
+  padding: 5px;  /* Adjust padding for smaller buttons */
+  margin-top: 20px;
+  font-size: 16px;  /* Adjust font size for smaller buttons */
+  height: 45px;
+  background-color: #f2f2f2;
+  color: #084F8C;
+  border-color: #084e8c6b;
+}
