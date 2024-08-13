@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { ApartmentListing } from '../models/apartment-listing';
 
 @Injectable({
@@ -9,7 +9,14 @@ import { ApartmentListing } from '../models/apartment-listing';
 export class ApiService {
   private readonly TOKEN_KEY = 'auth_token';
 
+  private listingUpdatedSource = new Subject<void>();
+  listingUpdated$ = this.listingUpdatedSource.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  notifyListingUpdated() {
+    this.listingUpdatedSource.next();
+  }
 
   login(user: { email: string; password: string }): Observable<HttpResponse<any>> {
     const apiUrl = 'http://localhost:8080/api/users/login';
@@ -33,10 +40,28 @@ export class ApiService {
     return this.http.get<any>(apiUrl, {headers, observe: 'response'});
   }
 
+  updateMyListing(listing: ApartmentListing): Observable<HttpResponse<any>> {
+    const headers = {'Authorization': `Bearer ${this.getToken()}`};
+    const apiUrl = 'http://localhost:8080/api/apartments/my-listings/edit';
+    return this.http.post<any>(apiUrl, listing, {headers, observe: 'response'}).pipe(
+      tap(() => this.notifyListingUpdated())
+    );
+  }
+
+  deleteMyListing(listing: ApartmentListing): Observable<HttpResponse<any>> {
+    const headers = {'Authorization': `Bearer ${this.getToken()}`};
+    const apiUrl = 'http://localhost:8080/api/apartments/my-listings/delete';
+    return this.http.post<any>(apiUrl, listing, {headers, observe: 'response'}).pipe(
+      tap(() => this.notifyListingUpdated())
+    );
+  }
+
   createListing(listing: ApartmentListing): Observable<HttpResponse<any>> {
     const headers = {'Authorization': `Bearer ${this.getToken()}`};
     const apiUrl = 'http://localhost:8080/api/apartments/create-listing';
-    return this.http.post<any>(apiUrl, listing, {headers, observe: 'response'});
+    return this.http.post<any>(apiUrl, listing, {headers, observe: 'response'}).pipe(
+      tap(() => this.notifyListingUpdated())
+    );
   }
 
   isTokenValid(): Observable<HttpResponse<any>> {

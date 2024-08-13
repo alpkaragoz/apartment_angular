@@ -7,6 +7,7 @@ import { AuthguardService } from './service/authguard.service';
 import { MyListingsComponent } from './pages/my-listings/my-listings.component';
 import { MyListingDetailsComponent } from './components/my-listing-details/my-listing-details.component';
 import { ListingDetailsComponent } from './components/listing-details/listing-details.component';
+import { MyListingEditComponent } from './components/my-listing-edit/my-listing-edit.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -18,5 +19,6 @@ export const routes: Routes = [
     ]},
   { path: 'my-listings', component: MyListingsComponent, canActivate: [AuthguardService], children: [
     { path: 'details', component: MyListingDetailsComponent, canActivate: [AuthguardService]},
+    { path: 'edit', component: MyListingEditComponent, canActivate: [AuthguardService]},
   ]},
 ];

@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiService } from '../../service/api.service';
 import { ApartmentListing } from '../../models/apartment-listing';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { ToastService } from '../../service/toast.service';
 import { Router, RouterModule } from '@angular/router';
-import { state } from '@angular/animations';
+import { MyListingEditComponent } from "../../components/my-listing-edit/my-listing-edit.component";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-my-listings',
   standalone: true,
-  imports: [CommonModule, ToastModule, ButtonModule, RouterModule],
+  imports: [CommonModule, ToastModule, ButtonModule, RouterModule, MyListingEditComponent],
   template: `
     <div id="main">
       <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"></p-toast>
@@ -38,7 +39,7 @@ import { state } from '@angular/animations';
             </div>
           </div>
           <p-button id="view-hover" class="edit-overlay" (click)="openDetails(listing)">Details</p-button>
-          <p-button class="edit-hover" id="edit-hover" class="edit-overlay">Edit</p-button>
+          <p-button class="edit-hover" id="edit-hover" class="edit-overlay" (click)="openEdit(listing)">Edit</p-button>
         </div>
         </div>
       </div>
@@ -47,18 +48,28 @@ import { state } from '@angular/animations';
   `,
   styleUrl: './my-listings.component.css'
 })
-export class MyListingsComponent implements OnInit {
+export class MyListingsComponent implements OnInit, OnDestroy {
     myListings: ApartmentListing[] = [];
+    private subscription: Subscription = new Subscription;
 
     constructor(
       private apiService: ApiService,
       private toastService: ToastService,
       private router: Router,
-      private location: Location,
     ) {}
 
     ngOnInit(){
       this.fetchMyListings();
+      this.subscription = this.apiService.listingUpdated$.subscribe(() => {
+        this.fetchMyListings(); // Refresh the listings when an update occurs
+      });
+    }
+
+    ngOnDestroy(): void {
+      // Unsubscribe to avoid memory leaks
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
     }
 
     fetchMyListings() {
@@ -67,7 +78,7 @@ export class MyListingsComponent implements OnInit {
           this.myListings = response.body.listings;
         },
         error: err => {
-          this.toastService.showToast('error', 'Error', err.error.message);
+          this.toastService.showToast(err.error.messageSeverity, 'Error', err.error.message);
         },
       });
     }
@@ -78,5 +89,9 @@ export class MyListingsComponent implements OnInit {
 
     openDetails (listing: ApartmentListing) {
       this.router.navigate(['/my-listings/details'], {state: {listing}});
+    }
+
+    openEdit (listing: ApartmentListing) {
+      this.router.navigate(['/my-listings/edit'], {state: {listing}});
     }
 }

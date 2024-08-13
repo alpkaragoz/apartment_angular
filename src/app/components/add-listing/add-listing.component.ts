@@ -4,17 +4,17 @@ import { CommonModule, Location } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../service/toast.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-add-listing',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ToastModule],
+  imports: [CommonModule, ReactiveFormsModule, ToastModule, ButtonModule],
   template: `
     <div class="listing-backdrop" (click)="closeListing()"></div>
-    <p-toast></p-toast>
     <div class="listing-content" (click)="$event.stopPropagation()">
       <h2>Add Listing</h2>
-      <form [formGroup]="listingForm" (ngSubmit)="onSubmit($event)">
+      <form [formGroup]="listingForm" (ngSubmit)="saveListing($event)">
         <div>
           <label for="listingName">Listing Name</label>
           <input id="listingName" formControlName="listingName" type="text" />
@@ -60,11 +60,12 @@ import { ToastService } from '../../service/toast.service';
           <label for="homeSquareMeter">Home Square Meter</label>
           <input id="homeSquareMeter" formControlName="homeSquareMeter" type="number" />
         </div>
-        <div>
-          <button type="submit" [disabled]="listingForm.invalid">Add Listing</button>
-          <button type="button" (click)="closeListing()">Cancel</button>
+        <div class="form-buttons">
+            <p-button styleClass="save-button" type = "submit" label="Save" [disabled]= "listingForm.invalid" class="p-button-md"/>
+            <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeListing()"/>
         </div>
       </form>
+      <p-toast></p-toast>
     </div>
   `,
   styleUrls: ['./add-listing.component.css']
@@ -92,23 +93,24 @@ export class AddListingComponent {
     });
   }
 
-  onSubmit(event: Event) {
+  saveListing(event: Event) {
     event.preventDefault();
     if (this.listingForm.valid) {
       const listing = this.listingForm.value;
       this.apiService.createListing(listing).subscribe({
         next: (response) => {
-          alert(response.body.message);
+          this.toastService.showToast('success', 'Success', response.body.message);
           this.closeListing();
         },
         error: (err) => {
-          alert(err.error.message);
+          this.toastService.showToast('error', 'Error', err.error.message);
         }
       });
     }
   }
 
   closeListing() {
+    this.toastService.showToast('success', 'Success', "ok");
     this.location.back();
   }
 }

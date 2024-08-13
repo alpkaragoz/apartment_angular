@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl } from '@angular/forms';
@@ -73,12 +73,12 @@ import { Subscription } from 'rxjs';
   `,
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   listings: ApartmentListing[] = [];
   filteredListings: ApartmentListing[] = [];
   currentPage = 1;
-  listingsPerPage = 100;
+  listingsPerPage = 6;
   totalPages = 1;
 
   private fb: FormBuilder = new FormBuilder();
@@ -100,6 +100,7 @@ export class DashboardComponent implements OnInit {
     this.subscriptions.add(this.maxPriceControl.valueChanges.subscribe(() => this.updateFilteredListings()));
     this.subscriptions.add(this.locationControl.valueChanges.subscribe(() => this.updateFilteredListings()));
     this.subscriptions.add(this.rentSaleControl.valueChanges.subscribe(() => this.updateFilteredListings()));
+    this.subscriptions.add(this.apiService.listingUpdated$.subscribe(() => {this.fetchApartmentList()}));
   }
 
   ngOnDestroy() {
