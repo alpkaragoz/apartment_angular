@@ -6,13 +6,15 @@ import { DecimalPipe } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { ApartmentListing } from '../../models/apartment-listing';
 import { Subscription } from 'rxjs';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterOutlet],
+  imports: [CommonModule, ReactiveFormsModule, RouterOutlet, ToastModule],
   providers: [DecimalPipe],
   template: `
+      <p-toast />
       <div id="dashboard-container">
         <div class="top-bar">
           <button (click)="openAddListing()" class="top-bar-button">+</button>

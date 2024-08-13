@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { ApiService } from '../../service/api.service';
-import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../service/toast.service';
 import { ButtonModule } from 'primeng/button';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-add-listing',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ToastModule, ButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule],
   template: `
     <div class="listing-backdrop" (click)="closeListing()"></div>
     <div class="listing-content" (click)="$event.stopPropagation()">
@@ -65,7 +65,6 @@ import { ButtonModule } from 'primeng/button';
             <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeListing()"/>
         </div>
       </form>
-      <p-toast></p-toast>
     </div>
   `,
   styleUrls: ['./add-listing.component.css']
@@ -78,6 +77,7 @@ export class AddListingComponent {
     private apiService: ApiService,
     private toastService: ToastService,
     private location: Location,
+    private messageService: MessageService,
     ) {
     this.listingForm = this.fb.group({
       listingName: ['', [Validators.required]],
@@ -110,7 +110,6 @@ export class AddListingComponent {
   }
 
   closeListing() {
-    this.toastService.showToast('success', 'Success', "ok");
     this.location.back();
   }
 }
