@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, Subject, tap } from 'rxjs';
 import { ApartmentListing } from '../models/apartment-listing';
 import { LoginRequestDTO } from '../dto/login-request-dto';
-import { RegisterRequestDTO } from '../dto/register-request-dto';
+import { MessageRequestDTO } from '../dto/message-request-dto';
+import { MyListingsRequestDTO } from '../dto/my-listings-request-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -28,47 +28,47 @@ export class ApiService {
     });
   }
 
-  register(user: { email: string; password: string }): Observable<HttpResponse<RegisterRequestDTO>> {
+  register(user: { email: string; password: string }): Observable<HttpResponse<MessageRequestDTO>> {
     const apiUrl = 'http://localhost:8080/api/users/register';
-    return this.http.post<RegisterRequestDTO>(apiUrl, user, {
+    return this.http.post<MessageRequestDTO>(apiUrl, user, {
       observe: 'response',
     });
   }
 
   getApartmentList(): Observable<ApartmentListing[]> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
-    const apiUrl = 'http://localhost:8080/api/apartments/list';
+    const apiUrl = 'http://localhost:8080/api/apartments/lists';
     return this.http.get<ApartmentListing[]>(apiUrl, { headers });
   }
 
-  getMyListings(): Observable<HttpResponse<any>> {
+  getMyListings(): Observable<HttpResponse<MyListingsRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
     const apiUrl = 'http://localhost:8080/api/apartments/my-listings';
-    return this.http.get<any>(apiUrl, { headers, observe: 'response' });
+    return this.http.get<MyListingsRequestDTO>(apiUrl, { headers, observe: 'response' });
   }
 
-  updateMyListing(listing: ApartmentListing): Observable<HttpResponse<any>> {
+  updateMyListing(listing: ApartmentListing): Observable<HttpResponse<MessageRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
     const apiUrl = 'http://localhost:8080/api/apartments/my-listings/edit';
-    return this.http.post<any>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
+    return this.http.post<MessageRequestDTO>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
   }
 
-  deleteMyListing(listing: ApartmentListing): Observable<HttpResponse<any>> {
+  deleteMyListing(listing: ApartmentListing): Observable<HttpResponse<MessageRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
     const apiUrl = 'http://localhost:8080/api/apartments/my-listings/delete';
-    return this.http.post<any>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
+    return this.http.post<MessageRequestDTO>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
   }
 
-  createListing(listing: ApartmentListing): Observable<HttpResponse<any>> {
+  createListing(listing: ApartmentListing): Observable<HttpResponse<MessageRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
     const apiUrl = 'http://localhost:8080/api/apartments/create-listing';
-    return this.http.post<any>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
+    return this.http.post<MessageRequestDTO>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
   }
 
-  isTokenValid(): Observable<HttpResponse<any>> {
+  isTokenValid(): Observable<HttpResponse<MessageRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
     const apiUrl = 'http://localhost:8080/api/validate-token';
-    return this.http.get<any>(apiUrl, { headers, observe: 'response' });
+    return this.http.get<MessageRequestDTO>(apiUrl, { headers, observe: 'response' });
   }
 
   saveToken(token: string): void {

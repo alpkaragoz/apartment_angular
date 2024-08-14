@@ -65,7 +65,7 @@ import { ButtonModule } from 'primeng/button';
             <input id="homeSquareMeter" type="number" formControlName="homeSquareMeter" />
           </div>
           <div class="form-buttons">
-            <p-button styleClass="save-button" label="Save" [disabled]="listingForm.invalid" class="p-button-md" (click)="saveListing()" />
+            <p-button styleClass="save-button" label="Save" [disabled]="listingForm.invalid" class="p-button-md" (click)="updateListing()" />
             <p-button styleClass="delete-button" label="Delete" [disabled]="listingForm.invalid" class="p-button-md" (click)="deleteListing()" />
             <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeTab()" />
           </div>
@@ -109,13 +109,15 @@ export class MyListingEditComponent implements OnInit {
     }
   }
 
-  saveListing(): void {
+  updateListing(): void {
     if (this.listingForm.valid) {
       const updatedListing: ApartmentListing = this.listingForm.value;
       this.apiService.updateMyListing(updatedListing).subscribe({
-        next: () => {
-          this.toastService.showToast('success', 'Success', 'Listing updated successfully!');
-          this.location.back();
+        next: (response) => {
+          if (response.status === 200 && response.body != null) {
+            this.toastService.showToast('success', 'Success', response.body.message);
+            this.location.back();
+          }
         },
         error: (error) => {
           this.toastService.showToast('error', 'Error', error.error.message);
@@ -128,9 +130,11 @@ export class MyListingEditComponent implements OnInit {
   deleteListing(): void {
     const updatedListing: ApartmentListing = this.listingForm.value;
     this.apiService.deleteMyListing(updatedListing).subscribe({
-      next: () => {
-        this.toastService.showToast('success', 'Success', 'Listing deleted successfully!');
-        this.location.back();
+      next: (response) => {
+        if (response.status === 200 && response.body != null) {
+          this.toastService.showToast('success', 'Success', response.body.message);
+          this.location.back();
+        }
       },
       error: (error) => {
         this.toastService.showToast('error', 'Error', error.error.message);

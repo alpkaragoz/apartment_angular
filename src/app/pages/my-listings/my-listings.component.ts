@@ -61,7 +61,9 @@ export class MyListingsComponent implements OnInit, OnDestroy {
   fetchMyListings() {
     this.apiService.getMyListings().subscribe({
       next: (response) => {
-        this.myListings = response.body.listings;
+        if (response.status === 200 && response.body != null) {
+          this.myListings = response.body.listings;
+        }
       },
       error: (err) => {
         this.toastService.showToast(err.error.messageSeverity, 'Error', err.error.message);

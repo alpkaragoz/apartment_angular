@@ -100,8 +100,10 @@ export class AddListingComponent {
       const listing = this.listingForm.value;
       this.apiService.createListing(listing).subscribe({
         next: (response) => {
-          this.toastService.showToast('success', 'Success', response.body.message);
-          this.closeListing();
+          if (response.status === 200 && response.body != null) {
+            this.toastService.showToast('success', 'Success', response.body.message);
+            this.closeListing();
+          }
         },
         error: (err) => {
           this.toastService.showToast('error', 'Error', err.error.message);
