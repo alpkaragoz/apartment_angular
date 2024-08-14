@@ -1,79 +1,70 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { ApartmentListing } from '../../models/apartment-listing';
 import { Subscription } from 'rxjs';
 import { ToastModule } from 'primeng/toast';
+import { ListingBoxComponent } from '../../components/listing-box/listing-box.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterOutlet, ToastModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterOutlet, ToastModule, ListingBoxComponent],
   providers: [DecimalPipe],
   template: `
-      <p-toast />
-      <div id="dashboard-container">
-        <div class="top-bar">
-          <button (click)="openAddListing()" class="top-bar-button">+</button>
-          <button (click)="myListings()" class="top-bar-button">My Listings</button>
-          <button (click)="logout()" class="logout-button">Log Out</button>
-        </div>
-        <h1>Welcome to the Dashboard!</h1>
-        <div class="search-bar">
-          <div>
-            <label for="title">Title</label>
-            <input id="title" type="text" placeholder="Cheap" [formControl]="searchControl" />
-          </div>
-          <div>
-            <label for="minPrice">Min Price</label>
-            <input id="minPrice" type="number" placeholder="5.000" [formControl]="minPriceControl" />
-          </div>
-          <div>
-            <label for="maxPrice">Max Price</label>
-            <input id="maxPrice" type="number" placeholder="30.000" [formControl]="maxPriceControl" />
-          </div>
-          <div>
-            <label for="location">Location</label>
-            <input id="location" type="text" placeholder="Texas" [formControl]="locationControl" />
-          </div>
-          <div>
-            <label for="rentSale">Rent/Sale</label>
-            <select id="rentSale" [formControl]="rentSaleControl">
-              <option value="">All</option>
-              <option value="RENT">Rent</option>
-              <option value="SALE">Sale</option>
-            </select>
-          </div>
-        </div>
-        <div id="discover-section">
-          <h2>Discover</h2>
-          <div class="listing-boxes">
-            <div class="box" *ngFor="let listing of filteredListings" (click)="openListingDetails(listing)">
-              <span class="home-icon">🏠</span>
-              <div class="listing-details">
-                <div class="listing-title">{{ listing.listingName }}</div>
-                <div class="listing-info">
-                  <div>{{ listing.rentSale }}</div>
-                  <div>&#8378;{{ listing.price | number:'1.0-0'}}</div>
-                  <div>{{ listing.address }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="pagination">
-          <button (click)="prevPage()" [disabled]="currentPage === 1">Back</button>
-          <span>Page {{ currentPage }}</span>
-          <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-        </div>
-        <ng-template #listingContainer></ng-template>
-        <router-outlet></router-outlet>
+    <p-toast />
+    <div id="dashboard-container">
+      <div class="top-bar">
+        <button (click)="openAddListing()" class="top-bar-button">+</button>
+        <button (click)="myListings()" class="top-bar-button">My Listings</button>
+        <button (click)="logout()" class="logout-button">Log Out</button>
       </div>
+      <h1>Welcome to the Dashboard!</h1>
+      <div class="search-bar">
+        <div>
+          <label for="title">Title</label>
+          <input id="title" type="text" placeholder="Cheap" [formControl]="searchControl" />
+        </div>
+        <div>
+          <label for="minPrice">Min Price</label>
+          <input id="minPrice" type="number" placeholder="5.000" [formControl]="minPriceControl" />
+        </div>
+        <div>
+          <label for="maxPrice">Max Price</label>
+          <input id="maxPrice" type="number" placeholder="30.000" [formControl]="maxPriceControl" />
+        </div>
+        <div>
+          <label for="location">Location</label>
+          <input id="location" type="text" placeholder="Texas" [formControl]="locationControl" />
+        </div>
+        <div>
+          <label for="rentSale">Rent/Sale</label>
+          <select id="rentSale" [formControl]="rentSaleControl">
+            <option value="">All</option>
+            <option value="RENT">Rent</option>
+            <option value="SALE">Sale</option>
+          </select>
+        </div>
+      </div>
+      <div id="discover-section">
+        <h2>Discover</h2>
+        <div class="listing-boxes">
+          <app-listing-box *ngFor="let listing of filteredListings" [listing]="listing" (listingClicked)="openListingDetails($event)"> </app-listing-box>
+        </div>
+      </div>
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Back</button>
+        <span>Page {{ currentPage }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+      <ng-template #listingContainer></ng-template>
+      <router-outlet></router-outlet>
+    </div>
   `,
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
@@ -92,7 +83,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private apiService: ApiService,
+    private apiService: ApiService
   ) {}
 
   ngOnInit() {
@@ -102,7 +93,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.maxPriceControl.valueChanges.subscribe(() => this.updateFilteredListings()));
     this.subscriptions.add(this.locationControl.valueChanges.subscribe(() => this.updateFilteredListings()));
     this.subscriptions.add(this.rentSaleControl.valueChanges.subscribe(() => this.updateFilteredListings()));
-    this.subscriptions.add(this.apiService.listingUpdated$.subscribe(() => {this.fetchApartmentList()}));
+    this.subscriptions.add(
+      this.apiService.listingUpdated$.subscribe(() => {
+        this.fetchApartmentList();
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -128,9 +123,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const rentSale = this.rentSaleControl.value;
 
     if (searchTerm) {
-      filtered = filtered.filter((listing) =>
-        listing.listingName.toLowerCase().includes(searchTerm)
-      );
+      filtered = filtered.filter((listing) => listing.listingName.toLowerCase().includes(searchTerm));
     }
 
     if (minPrice) {
@@ -142,9 +135,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     if (location) {
-      filtered = filtered.filter((listing) =>
-        listing.address.toLowerCase().includes(location)
-      );
+      filtered = filtered.filter((listing) => listing.address.toLowerCase().includes(location));
     }
 
     if (rentSale) {
@@ -176,11 +167,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openListingDetails(listing: ApartmentListing) {
-    this.router.navigate(['dashboard/listing-details'], {state: {listing}});
+    this.router.navigate(['dashboard/listing-details'], { state: { listing } });
   }
 
   openAddListing() {
-    this.router.navigate(["dashboard/add-listing"]);
+    this.router.navigate(['dashboard/add-listing']);
   }
 
   myListings() {

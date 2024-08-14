@@ -6,15 +6,15 @@
 }
 
 .photo-container {
-  background-image: url('../../../assets/images/logincity.jpg'); /* Correct path to your image */
-  background-size: cover; /* Ensure the image covers the entire background */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-image: url('../../../assets/images/logincity.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   width: 50%;
   display: flex;
   height: 100vh;
-  border-left:  1px solid #e0e0e0;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-left: 1px solid #e0e0e0;
+  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
 }
 
 .register-container {
@@ -22,8 +22,7 @@
   display: flex;
   margin: auto;
   flex-direction: column;
-  align-items: center;
-  justify-items: center;
+  place-items: center center;
 }
 
 .register-form {
@@ -31,7 +30,7 @@
   padding: 30px;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
   background-color: #1081c738;
 }
 
@@ -51,18 +50,18 @@
 
 .register-container input {
   width: 100%;
-  padding: 5px;  /* Adjust padding for smaller input fields */
-  font-size: 14px;  /* Adjust font size for smaller input fields */
+  padding: 5px;
+  font-size: 14px;
   box-sizing: border-box;
 }
 
 ::ng-deep .p-button {
   width: 100%;
-  padding: 5px;  /* Adjust padding for smaller buttons */
+  padding: 5px;
   margin-top: 20px;
-  font-size: 16px;  /* Adjust font size for smaller buttons */
+  font-size: 16px;
   height: 45px;
   background-color: #f2f2f2;
-  color: #084F8C;
+  color: #084f8c;
   border-color: #084e8c6b;
 }

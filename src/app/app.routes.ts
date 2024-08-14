@@ -12,13 +12,38 @@ import { MyListingEditComponent } from './components/my-listing-edit/my-listing-
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthguardService],
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthguardService],
     children: [
-      { path: 'add-listing', component: AddListingComponent, canActivate: [AuthguardService]},
-      { path: 'listing-details', component: ListingDetailsComponent, canActivate: [AuthguardService]},
-    ]},
-  { path: 'my-listings', component: MyListingsComponent, canActivate: [AuthguardService], children: [
-    { path: 'details', component: MyListingDetailsComponent, canActivate: [AuthguardService]},
-    { path: 'edit', component: MyListingEditComponent, canActivate: [AuthguardService]},
-  ]},
+      {
+        path: 'add-listing',
+        component: AddListingComponent,
+        canActivate: [AuthguardService],
+      },
+      {
+        path: 'listing-details',
+        component: ListingDetailsComponent,
+        canActivate: [AuthguardService],
+      },
+    ],
+  },
+  {
+    path: 'my-listings',
+    component: MyListingsComponent,
+    canActivate: [AuthguardService],
+    children: [
+      {
+        path: 'details',
+        component: MyListingDetailsComponent,
+        canActivate: [AuthguardService],
+      },
+      {
+        path: 'edit',
+        component: MyListingEditComponent,
+        canActivate: [AuthguardService],
+      },
+    ],
+  },
 ];

@@ -1,0 +1,94 @@
+/* Listing Boxes */
+.listing-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Box Styling */
+.box {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    filter 0.2s;
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 420px;
+
+  /* Adjust based on your design */
+  height: 210px;
+
+  /* Fixed height for uniformity */
+}
+
+.box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+}
+
+.box:hover .edit-overlay {
+  opacity: 1;
+  z-index: 10;
+
+  /* Ensure it appears above other content */
+}
+
+/* Icon Styling */
+.home-icon {
+  font-size: 40px;
+  color: #ff7043;
+  display: block;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Text Styling */
+.listing-details {
+  text-align: left;
+}
+
+.listing-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  white-space: nowrap;
+
+  /* Prevent text from wrapping */
+  overflow: hidden;
+
+  /* Hide overflow text */
+  text-overflow: ellipsis;
+
+  /* Add ellipsis for overflow text */
+}
+
+.listing-info {
+  font-size: 14px;
+  color: #666;
+}
+
+.listing-item {
+  margin-bottom: 8px;
+  white-space: nowrap;
+
+  /* Prevent text from wrapping */
+  overflow: hidden;
+
+  /* Hide overflow text */
+  text-overflow: ellipsis;
+
+  /* Add ellipsis for overflow text */
+}
+
+.label {
+  font-weight: bold;
+  color: #333;
+}

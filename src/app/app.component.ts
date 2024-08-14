@@ -7,7 +7,6 @@ import { LoginComponent } from './pages/login/login.component';
   standalone: true,
   imports: [RouterOutlet, LoginComponent],
   template: '<router-outlet></router-outlet>',
-  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'apartment_app';

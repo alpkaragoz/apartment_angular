@@ -11,8 +11,9 @@ import { MessageService } from 'primeng/api';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ButtonModule],
   template: `
-    <div class="listing-backdrop" (click)="closeListing()"></div>
-    <div class="listing-content" (click)="$event.stopPropagation()">
+    <div class="listing-backdrop"></div>
+    <div class="listing-content">
+      <button class="close-button" (click)="closeListing()">✕</button>
       <h2>Add Listing</h2>
       <form [formGroup]="listingForm" (ngSubmit)="saveListing($event)">
         <div>
@@ -61,24 +62,24 @@ import { MessageService } from 'primeng/api';
           <input id="homeSquareMeter" formControlName="homeSquareMeter" type="number" />
         </div>
         <div class="form-buttons">
-            <p-button styleClass="save-button" type = "submit" label="Save" [disabled]= "listingForm.invalid" class="p-button-md"/>
-            <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeListing()"/>
+          <p-button styleClass="save-button" type="submit" label="Save" [disabled]="listingForm.invalid" class="p-button-md" />
+          <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeListing()" />
         </div>
       </form>
     </div>
   `,
-  styleUrls: ['./add-listing.component.css']
+  styleUrls: ['./add-listing.component.css'],
 })
 export class AddListingComponent {
   listingForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private apiService: ApiService,
     private toastService: ToastService,
     private location: Location,
-    private messageService: MessageService,
-    ) {
+    private messageService: MessageService
+  ) {
     this.listingForm = this.fb.group({
       listingName: ['', [Validators.required]],
       address: ['', [Validators.required]],
@@ -89,7 +90,7 @@ export class AddListingComponent {
       hasFurniture: [false],
       hasBalcony: [false],
       bathroomNumber: [0, [Validators.required]],
-      homeSquareMeter: [0, [Validators.required]]
+      homeSquareMeter: [0, [Validators.required]],
     });
   }
 
@@ -104,7 +105,7 @@ export class AddListingComponent {
         },
         error: (err) => {
           this.toastService.showToast('error', 'Error', err.error.message);
-        }
+        },
       });
     }
   }

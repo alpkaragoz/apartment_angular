@@ -1,4 +1,3 @@
-/* Container */
 #main {
   max-width: 1200px;
   margin: 0 auto;
@@ -8,12 +7,11 @@
   flex-direction: column;
 }
 
-/* Section Styling */
 #discover-section {
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
   margin-bottom: 20px;
 }
 
@@ -23,117 +21,53 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Listing Boxes */
 .listing-boxes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 
-/* Box Styling */
-.box {
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative;
-  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Hover Effects */
-.box:hover .box-content {
-  filter: blur(2px);
-  opacity: 0.5;
-}
-
-.box:hover .edit-overlay {
-  opacity: 1;
-  z-index: 10; /* Ensure it appears above other content */
-}
-
-/* Overlay Button Styling */
 .edit-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #fff;
-  padding: 1px 1px;
-  border-radius: 7px;
   opacity: 0;
   transition: opacity 0.2s;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
 }
 
-#view-hover {
-  margin-left: -55px;
+.box:hover .edit-overlay {
+  opacity: 1;
 }
 
-#edit-hover {
-  margin-left: 55px;
-}
-
-#view-hover ::ng-deep .p-button {
-  background-color: #084F8C;
-  color: #D9D9D9;
-  border-color: #084F8C;
-}
-
-#edit-hover ::ng-deep .p-button {
-  background-color: #D9D9D9;
-  color: #084F8C;
-  border-color: #084F8C;
+.box:hover ::ng-deep .box-content {
+  opacity: 0.5;
+  filter: blur(2px);
 }
 
 ::ng-deep .p-button {
   width: 80px;
+  text-align: center;
   justify-content: center;
 }
 
-/* Icon Styling */
-.home-icon {
-  font-size: 40px;
-  color: #ff7043;
-  display: block;
-  margin-bottom: 15px;
-  text-align: center;
+#view-hover ::ng-deep .p-button {
+  background-color: #084f8c;
+  color: #d9d9d9;
+  border-color: #084f8c;
 }
 
-/* Text Styling */
-.listing-details {
-  text-align: left;
+#edit-hover ::ng-deep .p-button {
+  background-color: #d9d9d9;
+  color: #084f8c;
+  border-color: #084f8c;
 }
 
-.listing-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.listing-info {
-  font-size: 14px;
-  color: #666;
-}
-
-.listing-item {
-  margin-bottom: 8px;
-}
-
-.label {
-  font-weight: bold;
-  color: #333;
-}
-
-/* Back Button */
 .back-button {
   background: transparent;
   border: none;

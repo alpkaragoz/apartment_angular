@@ -8,7 +8,14 @@ import { MessageService } from 'primeng/api';
 import { ToastService } from './service/toast.service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(), provideAnimations(), provideAnimationsAsync(), MessageService, ToastService,
-    importProvidersFrom([BrowserAnimationsModule])
-  ]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(),
+    provideAnimations(),
+    provideAnimationsAsync(),
+    MessageService,
+    ToastService,
+    importProvidersFrom([BrowserAnimationsModule]),
+  ],
 };
