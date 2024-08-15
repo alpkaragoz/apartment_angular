@@ -6,7 +6,7 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { ToastService } from '../../service/toast.service';
 import { Router, RouterModule } from '@angular/router';
-import { MyListingEditComponent } from '../../components/my-listing-edit/my-listing-edit.component';
+import { MyListingEditComponent } from '../my-listing-edit/my-listing-edit.component';
 import { Subscription } from 'rxjs';
 import { ListingBoxComponent } from '../../components/listing-box/listing-box.component';
 
@@ -23,8 +23,8 @@ import { ListingBoxComponent } from '../../components/listing-box/listing-box.co
         <div class="listing-boxes">
           <app-listing-box class="box" *ngFor="let listing of myListings" [listing]="listing">
             <div class="edit-overlay">
-              <p-button id="view-hover" class="edit-overlay" (click)="openDetails(listing)">Details</p-button>
-              <p-button id="edit-hover" class="edit-overlay" (click)="openEdit(listing)">Edit</p-button>
+              <p-button id="view-hover" (click)="openDetails(listing)">Details</p-button>
+              <p-button id="edit-hover" (click)="openEdit(listing)">Edit</p-button>
             </div>
           </app-listing-box>
         </div>
@@ -52,7 +52,6 @@ export class MyListingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Unsubscribe to avoid memory leaks
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

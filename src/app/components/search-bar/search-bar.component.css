@@ -1,0 +1,26 @@
+.search-form {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.search-form div {
+  flex: 1;
+}
+
+.search-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.search-form input,
+.search-form select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}

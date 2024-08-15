@@ -1,0 +1,34 @@
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+
+  /* Pushes the pagination to the bottom */
+  padding: 20px 0;
+
+  /* Adds padding to give some space */
+}
+
+.pagination button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #1081c7;
+  color: #fff;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #084f8c;
+}
+
+.pagination span {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+}

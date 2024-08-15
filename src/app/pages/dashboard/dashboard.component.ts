@@ -1,66 +1,47 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms';
-import { DecimalPipe } from '@angular/common';
+import { FormGroup } from '@angular/forms';
 import { ApiService } from '../../service/api.service';
 import { ApartmentListing } from '../../models/apartment-listing';
 import { Subscription } from 'rxjs';
 import { ToastModule } from 'primeng/toast';
 import { ListingBoxComponent } from '../../components/listing-box/listing-box.component';
+import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { TopBarComponent } from '../../components/top-bar/top-bar.component';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterOutlet, ToastModule, ListingBoxComponent],
-  providers: [DecimalPipe],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    ToastModule,
+    ListingBoxComponent,
+    SearchBarComponent,
+    TopBarComponent,
+    PaginationComponent,
+  ],
+  providers: [],
   template: `
     <p-toast />
     <div id="dashboard-container">
-      <div class="top-bar">
-        <button (click)="openAddListing()" class="top-bar-button">+</button>
-        <button (click)="myListings()" class="top-bar-button">My Listings</button>
-        <button (click)="logout()" class="logout-button">Log Out</button>
-      </div>
-      <h1>Welcome to the Dashboard!</h1>
-      <div class="search-bar">
-        <div>
-          <label for="title">Title</label>
-          <input id="title" type="text" placeholder="Cheap" [formControl]="searchControl" />
-        </div>
-        <div>
-          <label for="minPrice">Min Price</label>
-          <input id="minPrice" type="number" placeholder="5.000" [formControl]="minPriceControl" />
-        </div>
-        <div>
-          <label for="maxPrice">Max Price</label>
-          <input id="maxPrice" type="number" placeholder="30.000" [formControl]="maxPriceControl" />
-        </div>
-        <div>
-          <label for="location">Location</label>
-          <input id="location" type="text" placeholder="Texas" [formControl]="locationControl" />
-        </div>
-        <div>
-          <label for="rentSale">Rent/Sale</label>
-          <select id="rentSale" [formControl]="rentSaleControl">
-            <option value="">All</option>
-            <option value="RENT">Rent</option>
-            <option value="SALE">Sale</option>
-          </select>
-        </div>
-      </div>
+      <app-top-bar (addListing)="openAddListing()" (logout)="logout()" (myListings)="openMyListings()" />
+      <h2>Welcome to the Dashboard!</h2>
       <div id="discover-section">
-        <h2>Discover</h2>
+        <app-search-bar (filter)="filterListings($event)" />
+        <h3>Discover</h3>
         <div class="listing-boxes">
-          <app-listing-box *ngFor="let listing of filteredListings" [listing]="listing" (listingClicked)="openListingDetails($event)"> </app-listing-box>
+          <app-listing-box
+            *ngFor="let listing of listingsOnCurrentPage"
+            [listing]="listing"
+            (listingClicked)="openListingDetails($event)"
+          >
+          </app-listing-box>
         </div>
       </div>
-      <div class="pagination">
-        <button (click)="prevPage()" [disabled]="currentPage === 1">Back</button>
-        <span>Page {{ currentPage }}</span>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-      </div>
-      <ng-template #listingContainer></ng-template>
+      <app-pagination [currentPage]="currentPage" (nextEmitter)="nextPage()" (prevEmitter)="prevPage()" />
       <router-outlet></router-outlet>
     </div>
   `,
@@ -70,16 +51,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   listings: ApartmentListing[] = [];
   filteredListings: ApartmentListing[] = [];
+  listingsOnCurrentPage: ApartmentListing[] = [];
   currentPage = 1;
   listingsPerPage = 6;
   totalPages = 1;
-
-  private fb: FormBuilder = new FormBuilder();
-  searchControl: FormControl = this.fb.control('');
-  minPriceControl: FormControl = this.fb.control('');
-  maxPriceControl: FormControl = this.fb.control('');
-  locationControl: FormControl = this.fb.control('');
-  rentSaleControl: FormControl = this.fb.control('');
 
   constructor(
     private router: Router,
@@ -88,11 +63,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetchApartmentList();
-    this.subscriptions.add(this.searchControl.valueChanges.subscribe(() => this.updateFilteredListings()));
-    this.subscriptions.add(this.minPriceControl.valueChanges.subscribe(() => this.updateFilteredListings()));
-    this.subscriptions.add(this.maxPriceControl.valueChanges.subscribe(() => this.updateFilteredListings()));
-    this.subscriptions.add(this.locationControl.valueChanges.subscribe(() => this.updateFilteredListings()));
-    this.subscriptions.add(this.rentSaleControl.valueChanges.subscribe(() => this.updateFilteredListings()));
     this.subscriptions.add(
       this.apiService.listingUpdated$.subscribe(() => {
         this.fetchApartmentList();
@@ -101,63 +71,70 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Unsubscribe from all subscriptions
     this.subscriptions.unsubscribe();
   }
 
   fetchApartmentList() {
     this.apiService.getApartmentList().subscribe((data: ApartmentListing[]) => {
       this.listings = data;
-      this.totalPages = Math.ceil(this.listings.length / this.listingsPerPage);
-      this.updateFilteredListings();
+      this.filteredListings = data;
+      this.paginateListings();
     });
   }
 
-  updateFilteredListings() {
+  paginateListings() {
+    this.totalPages = Math.ceil(this.filteredListings.length / this.listingsPerPage);
+    const startIndex = (this.currentPage - 1) * this.listingsPerPage;
+    this.listingsOnCurrentPage = this.filteredListings.slice(startIndex, startIndex + this.listingsPerPage);
+  }
+
+  filterListings(filterValues: FormGroup) {
     let filtered = this.listings;
 
-    const searchTerm = this.searchControl.value.toLowerCase();
-    const minPrice = this.minPriceControl.value;
-    const maxPrice = this.maxPriceControl.value;
-    const location = this.locationControl.value.toLowerCase();
-    const rentSale = this.rentSaleControl.value;
+    if (filterValues) {
+      const searchTerm = filterValues.value.titleControl?.toLowerCase() || '';
+      const minPrice = filterValues.value.minPriceControl || 0;
+      const maxPrice = filterValues.value.maxPriceControl || Infinity;
+      const location = filterValues.value.locationControl?.toLowerCase() || '';
+      const rentSale = filterValues.value.rentSaleControl || '';
 
-    if (searchTerm) {
-      filtered = filtered.filter((listing) => listing.listingName.toLowerCase().includes(searchTerm));
+      if (searchTerm) {
+        filtered = filtered.filter((listing) => listing.listingName.toLowerCase().includes(searchTerm));
+      }
+
+      if (minPrice) {
+        filtered = filtered.filter((listing) => listing.price >= minPrice);
+      }
+
+      if (maxPrice) {
+        filtered = filtered.filter((listing) => listing.price <= maxPrice);
+      }
+
+      if (location) {
+        filtered = filtered.filter((listing) => listing.address.toLowerCase().includes(location));
+      }
+
+      if (rentSale) {
+        filtered = filtered.filter((listing) => listing.rentSale === rentSale);
+      }
     }
 
-    if (minPrice) {
-      filtered = filtered.filter((listing) => listing.price >= minPrice);
-    }
-
-    if (maxPrice) {
-      filtered = filtered.filter((listing) => listing.price <= maxPrice);
-    }
-
-    if (location) {
-      filtered = filtered.filter((listing) => listing.address.toLowerCase().includes(location));
-    }
-
-    if (rentSale) {
-      filtered = filtered.filter((listing) => listing.rentSale === rentSale);
-    }
-
-    this.totalPages = Math.ceil(filtered.length / this.listingsPerPage);
-    const startIndex = (this.currentPage - 1) * this.listingsPerPage;
-    this.filteredListings = filtered.slice(startIndex, startIndex + this.listingsPerPage);
+    this.filteredListings = filtered;
+    this.currentPage = 1;
+    this.paginateListings();
   }
 
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateFilteredListings();
+      this.paginateListings();
     }
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateFilteredListings();
+      this.paginateListings();
     }
   }
 
@@ -174,7 +151,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['dashboard/add-listing']);
   }
 
-  myListings() {
+  openMyListings() {
     this.router.navigate(['/my-listings']);
   }
 }

@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 import { RegisterComponent } from './pages/register/register.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { AddListingComponent } from './components/add-listing/add-listing.component';
+import { AddListingComponent } from './pages/add-listing/add-listing.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthguardService } from './service/authguard.service';
 import { MyListingsComponent } from './pages/my-listings/my-listings.component';
-import { MyListingDetailsComponent } from './components/my-listing-details/my-listing-details.component';
-import { ListingDetailsComponent } from './components/listing-details/listing-details.component';
-import { MyListingEditComponent } from './components/my-listing-edit/my-listing-edit.component';
+import { MyListingDetailsComponent } from './pages/my-listing-details/my-listing-details.component';
+import { ListingDetailsComponent } from './pages/listing-details/listing-details.component';
+import { MyListingEditComponent } from './pages/my-listing-edit/my-listing-edit.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
