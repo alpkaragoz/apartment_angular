@@ -12,6 +12,7 @@ import { ToastService } from '../../service/toast.service';
   imports: [CommonModule, ReactiveFormsModule, ButtonModule, ToastModule],
   template: `
     <div class="main">
+      <div class="backdrop"></div>
       <p-toast></p-toast>
       <div class="register-container">
         <div class="register-form">
@@ -25,7 +26,13 @@ import { ToastService } from '../../service/toast.service';
               <label for="password">Password</label>
               <input id="password" formControlName="password" type="password" [disabled]="loading" />
             </div>
-            <p-button label="Register" [disabled]="registerForm.invalid" [loading]="loading" severity="success" (click)="onSubmit()"></p-button>
+            <p-button
+              label="Register"
+              [disabled]="registerForm.invalid"
+              [loading]="loading"
+              severity="success"
+              (click)="onSubmit()"
+            ></p-button>
           </form>
         </div>
       </div>

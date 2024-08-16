@@ -60,6 +60,7 @@ h2 {
   color: #333;
   font-size: 16px;
   text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .close-button {

@@ -5,6 +5,16 @@
   flex-direction: row;
 }
 
+.backdrop {
+  opacity: var(--login-opacity);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0 0 0 / 80%);
+  display: flex;
+  z-index: 10;
+}
+
 .photo-container {
   background-image: url('../../../assets/images/logincity.jpg');
   background-size: cover;
@@ -23,20 +33,22 @@
   margin: auto;
   flex-direction: column;
   place-items: center center;
+  z-index: 20;
 }
 
 .register-form {
   width: 400px;
   padding: 30px;
-  border: 1px solid #e0e0e0;
+  border: transparent;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
-  background-color: #1081c738;
+  box-shadow: 0 0 10px var(--primary-color);
+  background-color: var(--background-card);
 }
 
 .register-container h2 {
   text-align: center;
   margin-bottom: 20px;
+  color: var(--text-primary);
 }
 
 .register-container div {
@@ -46,6 +58,7 @@
 .register-container label {
   display: block;
   margin-bottom: 5px;
+  color: var(--text-primary);
 }
 
 .register-container input {
@@ -57,11 +70,42 @@
 
 ::ng-deep .p-button {
   width: 100%;
-  padding: 5px;
-  margin-top: 20px;
-  font-size: 16px;
-  height: 45px;
-  background-color: #f2f2f2;
-  color: #084f8c;
-  border-color: #084e8c6b;
+  border-color: transparent;
+  transition: all 0.2s;
+  transform-style: ease-out;
+  background-color: var(--primary-color);
+  color: var(--background-main);
+}
+
+::ng-deep .p-button:hover {
+  box-shadow:
+    var(--secondary-color) 0 1px 2px 0,
+    var(--secondary-color) 0 1px 3px 1px;
+  color: var(--background-main);
+}
+
+@media (width < 840px) {
+  .photo-container {
+    width: 0;
+    height: 0;
+  }
+
+  .register-container {
+    width: 60%;
+  }
+
+  .main {
+    flex-direction: column;
+  }
+
+  .welcome-text {
+    font-size: 1.5rem;
+    margin-bottom: auto;
+  }
+}
+
+@media (width < 520px) {
+  .register-container {
+    width: 80%;
+  }
 }

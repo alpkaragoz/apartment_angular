@@ -65,8 +65,20 @@ import { ButtonModule } from 'primeng/button';
             <input id="homeSquareMeter" type="number" formControlName="homeSquareMeter" />
           </div>
           <div class="form-buttons">
-            <p-button styleClass="save-button" label="Save" [disabled]="listingForm.invalid" class="p-button-md" (click)="updateListing()" />
-            <p-button styleClass="delete-button" label="Delete" [disabled]="listingForm.invalid" class="p-button-md" (click)="deleteListing()" />
+            <p-button
+              styleClass="save-button"
+              label="Save"
+              [disabled]="listingForm.invalid"
+              class="p-button-md"
+              (click)="updateListing()"
+            />
+            <p-button
+              styleClass="delete-button"
+              label="Delete"
+              [disabled]="listingForm.invalid"
+              class="p-button-md"
+              (click)="deleteListing()"
+            />
             <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeTab()" />
           </div>
         </form>

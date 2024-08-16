@@ -1,0 +1,11 @@
+.toggle-button {
+  background: black;
+  border: transparent;
+  border-radius: 25%;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.toggle-button :focus {
+  outline: none;
+}

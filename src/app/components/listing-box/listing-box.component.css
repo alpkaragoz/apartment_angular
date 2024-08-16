@@ -21,11 +21,7 @@
   cursor: pointer;
   overflow: hidden;
   max-width: 420px;
-
-  /* Adjust based on your design */
   height: 210px;
-
-  /* Fixed height for uniformity */
 }
 
 .box:hover {
@@ -36,8 +32,6 @@
 .box:hover .edit-overlay {
   opacity: 1;
   z-index: 10;
-
-  /* Ensure it appears above other content */
 }
 
 /* Icon Styling */
@@ -60,14 +54,8 @@
   color: #333;
   margin-bottom: 10px;
   white-space: nowrap;
-
-  /* Prevent text from wrapping */
   overflow: hidden;
-
-  /* Hide overflow text */
   text-overflow: ellipsis;
-
-  /* Add ellipsis for overflow text */
 }
 
 .listing-info {
@@ -78,14 +66,8 @@
 .listing-item {
   margin-bottom: 8px;
   white-space: nowrap;
-
-  /* Prevent text from wrapping */
   overflow: hidden;
-
-  /* Hide overflow text */
   text-overflow: ellipsis;
-
-  /* Add ellipsis for overflow text */
 }
 
 .label {

@@ -7,3 +7,27 @@ html {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+:root {
+  --background-main: #fff;
+  --background-card: hwb(0deg 95% 9%);
+  --background-button: hwb(0deg 91% 9%);
+  --background-navbar: hwb(0deg 83% 27%);
+  --text-primary: #000;
+  --text-secondary: #121212;
+  --primary-color: #1d435d;
+  --secondary-color: #1f76a8;
+  --login-opacity: 0;
+}
+
+[data-theme='dark'] {
+  --background-main: #121212;
+  --background-card: #292929;
+  --background-button: #404040;
+  --background-navbar: #575757;
+  --text-primary: #fff;
+  --text-secondary: #8f9396;
+  --primary-color: #a4512e;
+  --secondary-color: #ff8653;
+  --login-opacity: 1;
+}

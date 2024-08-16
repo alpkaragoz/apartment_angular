@@ -6,17 +6,21 @@ import { ApiService } from '../../service/api.service';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../service/toast.service';
+import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, ButtonModule, ToastModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, ButtonModule, ToastModule, ThemeToggleComponent],
   template: `
     <div class="main">
       <p-toast></p-toast>
+      <app-theme-toggle />
       <div class="photo-container"></div>
+      <div class="backdrop"></div>
       <div class="welcome-container">
         <p class="welcome-text">Welcome to Apartment Hunter</p>
+        <app-theme-toggle />
         <div class="login-container">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <h1>⌂</h1>
@@ -27,7 +31,14 @@ import { ToastService } from '../../service/toast.service';
               <input id="password" formControlName="password" type="password" />
             </div>
             <div class="button-group">
-              <p-button styleClass="login-button" label="Login" [loading]="loading" [disabled]="loginForm.invalid" class="p-button-md" (click)="onSubmit()" />
+              <p-button
+                styleClass="login-button"
+                label="Login"
+                [loading]="loading"
+                [disabled]="loginForm.invalid"
+                class="p-button-md"
+                (click)="onSubmit()"
+              />
               <p-button styleClass="register-button" label="Register" [disabled]="loading" routerLink="/register" />
             </div>
           </form>
@@ -40,6 +51,7 @@ import { ToastService } from '../../service/toast.service';
 export class LoginComponent {
   loginForm: FormGroup;
   loading = false; // Tracking loading state.
+  backgroundUrl = '';
 
   constructor(
     private fb: FormBuilder,

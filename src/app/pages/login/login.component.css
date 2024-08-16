@@ -8,6 +8,12 @@
   background-color: #f0f0ee;
 }
 
+app-theme-toggle {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
 .welcome-container {
   width: 50%;
   margin: auto;
@@ -15,23 +21,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 20;
 }
 
 .login-container {
   width: 400px;
   padding: 20px;
   margin: auto;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-navbar);
   border-radius: 10px;
   box-shadow: 0 0 10px rgb(0 0 0 / 10%);
-  background-color: white;
+  background-color: var(--background-main);
   margin-bottom: 15%;
 }
 
 .login-container h1 {
   text-align: center;
   margin-bottom: 20px;
-  color: #a26e0d;
+  color: var(--secondary-color);
 }
 
 .login-container div {
@@ -41,6 +48,7 @@
 .login-container label {
   display: block;
   margin-bottom: 5px;
+  color: var(--text-primary);
 }
 
 .login-container input {
@@ -59,19 +67,32 @@
   font-style: bold;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 2rem;
-  margin-bottom: 50px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: var(--text-primary);
 }
 
 .photo-container {
-  background-image: url('../../../assets/images/apartment-hunter.jpg');
+  background-image: url('../../../assets/images/lightphoto.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: 15%;
   background-repeat: no-repeat;
-  width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  width: 50%;
+  z-index: 0;
+}
+
+.backdrop {
+  opacity: var(--login-opacity);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0 0 0 / 80%);
+  display: flex;
+  z-index: 10;
 }
 
 .button-group {
@@ -84,28 +105,60 @@
 ::ng-deep .p-button {
   width: 100%;
   border-color: transparent;
+  transition: all 0.2s;
+  transform-style: ease-out;
 }
 
 ::ng-deep .register-button {
-  background-color: #f0f0f0;
-  color: #a26e0d;
-  border-color: #1081c7;
-  box-shadow: 0 1px 1px rgb(0 0 0 / 30%);
+  background-color: var(--background-button);
+  color: var(--text-primary);
 }
 
 ::ng-deep .login-button {
-  background-color: #1081c7;
-  color: white;
+  background-color: var(--background-button);
+  color: var(--text-primary);
 }
 
 ::ng-deep .register-button:hover {
-  background-color: #a6a6a6;
-  color: white;
-  transition: background-color 300ms ease;
+  box-shadow:
+    var(--secondary-color) 0 1px 2px 0,
+    var(--secondary-color) 0 1px 3px 1px;
+  color: var(--secondary-color);
 }
 
 ::ng-deep .login-button:hover {
-  background-color: #a6a6a6;
-  color: white;
-  transition: background-color 300ms ease;
+  box-shadow:
+    var(--secondary-color) 0 1px 2px 0,
+    var(--secondary-color) 0 1px 3px 1px;
+  color: var(--secondary-color);
+}
+
+@media (width < 720px) {
+  .photo-container {
+    width: 0;
+    height: 0;
+  }
+
+  .welcome-container {
+    width: 60%;
+  }
+
+  .login-container {
+    width: 100%;
+  }
+
+  .main {
+    flex-direction: column;
+  }
+
+  .welcome-text {
+    font-size: 1.5rem;
+    margin-bottom: auto;
+  }
+}
+
+@media (width < 520px) {
+  .welcome-container {
+    width: 80%;
+  }
 }
