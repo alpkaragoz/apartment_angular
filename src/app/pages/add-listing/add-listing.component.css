@@ -15,7 +15,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  background-color: white;
+  background-color: var(--background-main); /* Use background-main variable for content background */
   padding: 20px;
   border-radius: 8px;
   width: 90%;
@@ -29,6 +29,7 @@
 
 h2 {
   margin-top: 0;
+  color: var(--text-primary); /* Use text-primary for heading color */
 }
 
 form div {
@@ -38,6 +39,7 @@ form div {
 label {
   display: block;
   margin-bottom: 5px;
+  color: var(--text-primary); /* Use text-primary for label text color */
 }
 
 input[type='checkbox'],
@@ -45,8 +47,10 @@ select {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
   border-radius: 4px;
+  border: 1px solid var(--background-button); /* Use background-button for border */
+  background-color: var(--background-main); /* Use background-main for input/select background */
+  color: var(--text-primary); /* Use text-primary for text color */
 }
 
 input,
@@ -55,8 +59,10 @@ textarea {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
-  border: 1px solid #ccc;
   border-radius: 4px;
+  border: 1px solid var(--background-button); /* Use background-button for border */
+  background-color: var(--background-main); /* Use background-main for input/textarea background */
+  color: var(--text-primary); /* Use text-primary for text color */
 }
 
 .listing-content form {
@@ -75,6 +81,7 @@ textarea {
 
 .checkbox-group label {
   margin-right: 10px;
+  color: var(--text-primary); /* Use text-primary for label text color */
 }
 
 /* Center the buttons and add space between them */
@@ -102,7 +109,7 @@ textarea {
   background: transparent;
   border: none;
   font-size: 24px;
-  color: #333;
+  color: var(--text-primary); /* Use text-primary for close button */
   position: absolute;
   top: 10px;
   right: 10px;

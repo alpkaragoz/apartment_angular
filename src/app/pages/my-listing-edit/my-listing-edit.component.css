@@ -13,7 +13,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: var(--background-main); /* Use background-main for the content background */
   padding: 30px;
   border-radius: 10px;
   z-index: 20;
@@ -27,7 +27,7 @@
 h2 {
   margin-top: 0;
   text-align: center;
-  color: #333;
+  color: var(--text-primary); /* Use text-primary for the heading color */
   font-size: 24px;
   margin-bottom: 20px;
 }
@@ -42,13 +42,14 @@ h2 {
   display: flex;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--background-button); /* Use background-button for the border */
+  color: var(--text-primary);
 }
 
 .label {
   width: 40%;
   font-weight: bold;
-  color: #555;
+  color: var(--text-secondary); /* Use text-secondary for label color */
   font-size: 16px;
   margin-right: 10px;
   text-align: right;
@@ -59,13 +60,15 @@ h2 {
   position: absolute;
   width: 50%;
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--background-button); /* Use background-button for border */
   border-radius: 4px;
   font-size: 14px;
   right: 20px;
+  background-color: var(--background-main); /* Use background-main for input/select background */
+  color: var(--text-primary); /* Use text-primary for input/select text color */
 }
 
-.info-item input[type="checkbox"] {
+.info-item input[type='checkbox'] {
   right: 25%;
   width: auto;
   margin-left: 10px;

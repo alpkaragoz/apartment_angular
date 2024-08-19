@@ -12,7 +12,7 @@
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-primary); /* Use text-primary variable */
 }
 
 .search-form input,
@@ -20,7 +20,14 @@
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  border: 1px solid var(--background-button); /* Use background-button variable for the border */
   border-radius: 4px;
   font-size: 14px;
+  background-color: var(--background-main); /* Use background-main variable for input/select background */
+  color: var(--text-primary); /* Use text-primary for input/select text color */
+}
+
+.search-form input::placeholder,
+.search-form select::placeholder {
+  color: var(--text-secondary); /* Use text-secondary for placeholder text color */
 }

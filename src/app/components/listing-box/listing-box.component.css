@@ -7,8 +7,8 @@
 
 /* Box Styling */
 .box {
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
+  background-color: var(--background-card); /* Use background-card variable */
+  border: 1px solid var(--background-button); /* Use background-button variable for the border */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
   padding: 20px;
@@ -37,7 +37,7 @@
 /* Icon Styling */
 .home-icon {
   font-size: 40px;
-  color: #ff7043;
+  color: var(--primary-color); /* Use primary-color variable */
   display: block;
   margin-bottom: 15px;
   text-align: center;
@@ -51,7 +51,7 @@
 .listing-title {
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-primary); /* Use text-primary variable */
   margin-bottom: 10px;
   white-space: nowrap;
   overflow: hidden;
@@ -60,7 +60,7 @@
 
 .listing-info {
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary); /* Use text-secondary variable */
 }
 
 .listing-item {
@@ -72,5 +72,5 @@
 
 .label {
   font-weight: bold;
-  color: #333;
+  color: var(--text-primary); /* Use text-primary variable */
 }

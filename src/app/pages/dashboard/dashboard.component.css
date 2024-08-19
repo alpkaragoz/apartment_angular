@@ -1,11 +1,13 @@
 /* Container */
 #dashboard-container {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--background-main); /* Use background-main variable */
+  color: var(--text-primary); /* Use text-primary variable */
 }
 
 h3 {

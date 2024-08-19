@@ -15,21 +15,23 @@ import { ListingBoxComponent } from '../../components/listing-box/listing-box.co
   standalone: true,
   imports: [CommonModule, ToastModule, ButtonModule, RouterModule, MyListingEditComponent, ListingBoxComponent],
   template: `
-    <div id="main">
-      <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"></p-toast>
-      <div id="discover-section">
-        <button class="back-button" (click)="goBack()">< Dashboard</button>
-        <h2>My Listings</h2>
-        <div class="listing-boxes">
-          <app-listing-box class="box" *ngFor="let listing of myListings" [listing]="listing">
-            <div class="edit-overlay">
-              <p-button id="view-hover" (click)="openDetails(listing)">Details</p-button>
-              <p-button id="edit-hover" (click)="openEdit(listing)">Edit</p-button>
-            </div>
-          </app-listing-box>
+    <div id="background">
+      <div id="main">
+        <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"></p-toast>
+        <div id="discover-section">
+          <button class="back-button" (click)="goBack()">< Dashboard</button>
+          <h2>My Listings</h2>
+          <div class="listing-boxes">
+            <app-listing-box class="box" *ngFor="let listing of myListings" [listing]="listing">
+              <div class="edit-overlay">
+                <p-button id="view-hover" (click)="openDetails(listing)">Details</p-button>
+                <p-button id="edit-hover" (click)="openEdit(listing)">Edit</p-button>
+              </div>
+            </app-listing-box>
+          </div>
         </div>
+        <router-outlet> </router-outlet>
       </div>
-      <router-outlet> </router-outlet>
     </div>
   `,
   styleUrl: './my-listings.component.css',

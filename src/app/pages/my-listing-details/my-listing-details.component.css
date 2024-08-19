@@ -13,7 +13,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: var(--background-main); /* Use background-main for the content background */
   padding: 30px;
   border-radius: 10px;
   z-index: 20;
@@ -27,7 +27,7 @@
 h2 {
   margin-top: 0;
   text-align: center;
-  color: #333;
+  color: var(--text-primary); /* Use text-primary for the heading color */
   font-size: 24px;
   margin-bottom: 20px;
 }
@@ -42,12 +42,12 @@ h2 {
   display: flex;
   justify-content: space-between;
   padding: 10px 15px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--background-button); /* Use background-button for the border */
 }
 
 .label {
   font-weight: bold;
-  color: #555;
+  color: var(--text-secondary); /* Use text-secondary for label color */
   margin-right: 10px;
   font-size: 16px;
 }
@@ -57,7 +57,7 @@ h2 {
 }
 
 .info-item span:last-child {
-  color: #333;
+  color: var(--text-primary); /* Use text-primary for info text color */
   font-size: 16px;
   text-align: right;
   overflow-wrap: anywhere;
@@ -67,7 +67,7 @@ h2 {
   background: transparent;
   border: none;
   font-size: 24px;
-  color: #333;
+  color: var(--text-primary); /* Use text-primary for the close button color */
   position: absolute;
   top: 10px;
   right: 10px;
