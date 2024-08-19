@@ -10,4 +10,5 @@ export interface ApartmentListing {
   hasBalcony: boolean;
   bathroomNumber: number;
   homeSquareMeter: number;
+  listerEmail?: string;
 }

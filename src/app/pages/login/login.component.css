@@ -32,7 +32,6 @@ app-theme-toggle {
   border-radius: 10px;
   box-shadow: 0 0 10px rgb(0 0 0 / 10%);
   background-color: var(--background-main);
-  margin-bottom: 15%;
 }
 
 .login-container h1 {
@@ -67,7 +66,8 @@ app-theme-toggle {
   font-style: bold;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 2rem;
-  margin-top: 40px;
+
+  /* margin-top: 40px; */
   margin-bottom: 40px;
   color: var(--text-primary);
 }

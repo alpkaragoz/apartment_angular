@@ -19,7 +19,6 @@ import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle
       <div class="photo-container"></div>
       <div class="backdrop"></div>
       <div class="welcome-container">
-        <p class="welcome-text">Welcome to Apartment Hunter</p>
         <app-theme-toggle />
         <div class="login-container">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

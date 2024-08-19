@@ -56,6 +56,10 @@ import { DecimalPipe, Location } from '@angular/common';
           <span class="label">Home Square Meter:</span>
           <span>{{ listing.homeSquareMeter }} m²</span>
         </div>
+        <div class="info-item">
+          <span class="label">Lister:</span>
+          <span>{{ listing.listerEmail ?? 'Unknown' }}</span>
+        </div>
       </div>
     </div>
   `,

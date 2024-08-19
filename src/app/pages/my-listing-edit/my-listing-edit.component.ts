@@ -104,12 +104,12 @@ export class MyListingEditComponent implements OnInit {
       listingName: [this.listing.listingName, Validators.required],
       address: [this.listing.address, Validators.required],
       age: [this.listing.age, [Validators.required, Validators.min(0)]],
-      roomNumber: [this.listing.roomNumber, [Validators.required, Validators.min(1)]],
+      roomNumber: [this.listing.roomNumber, [Validators.required, Validators.min(0)]],
       price: [this.listing.price, [Validators.required, Validators.min(0)]],
       rentSale: [this.listing.rentSale, Validators.required],
       hasFurniture: [this.listing.hasFurniture],
       hasBalcony: [this.listing.hasBalcony],
-      bathroomNumber: [this.listing.bathroomNumber, [Validators.required, Validators.min(1)]],
+      bathroomNumber: [this.listing.bathroomNumber, [Validators.required, Validators.min(0)]],
       homeSquareMeter: [this.listing.homeSquareMeter, [Validators.required, Validators.min(0)]],
     });
   }

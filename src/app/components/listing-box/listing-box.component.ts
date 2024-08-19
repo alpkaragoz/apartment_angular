@@ -14,8 +14,11 @@ import { CommonModule } from '@angular/common';
           <div class="listing-title">{{ listing.listingName }}</div>
           <div class="listing-info">
             <div class="listing-item"><span class="label">Type:</span> {{ listing.rentSale }}</div>
-            <div class="listing-item"><span class="label">Price:</span> &#8378;{{ listing.price | number: '1.0-0' }}</div>
+            <div class="listing-item">
+              <span class="label">Price:</span> &#8378;{{ listing.price | number: '1.0-0' }}
+            </div>
             <div class="listing-item"><span class="label">Address:</span> {{ listing.address }}</div>
+            <div class="listing-item"><span class="label">Lister:</span> {{ listing.listerEmail ?? 'Unknown' }}</div>
           </div>
         </div>
       </div>
