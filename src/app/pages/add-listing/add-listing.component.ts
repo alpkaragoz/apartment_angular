@@ -62,7 +62,14 @@ import { MessageService } from 'primeng/api';
           <input id="homeSquareMeter" formControlName="homeSquareMeter" type="number" />
         </div>
         <div class="form-buttons">
-          <p-button styleClass="save-button" type="submit" label="Save" [disabled]="listingForm.invalid" class="p-button-md" />
+          <p-button
+            styleClass="save-button"
+            type="submit"
+            label="Save"
+            [disabled]="listingForm.invalid"
+            [loading]="loading"
+            class="p-button-md"
+          />
           <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeListing()" />
         </div>
       </form>
@@ -72,6 +79,7 @@ import { MessageService } from 'primeng/api';
 })
 export class AddListingComponent {
   listingForm: FormGroup;
+  loading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -97,15 +105,18 @@ export class AddListingComponent {
   saveListing(event: Event) {
     event.preventDefault();
     if (this.listingForm.valid) {
+      this.loading = true;
       const listing = this.listingForm.value;
       this.apiService.createListing(listing).subscribe({
         next: (response) => {
           if (response.status === 200 && response.body != null) {
             this.toastService.showToast('success', 'Success', response.body.message);
+            this.loading = false;
             this.closeListing();
           }
         },
         error: (err) => {
+          this.loading = false;
           this.toastService.showToast('error', 'Error', err.error.message);
         },
       });
