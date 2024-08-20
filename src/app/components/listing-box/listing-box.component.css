@@ -1,17 +1,10 @@
-/* Listing Boxes */
-.listing-boxes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
 /* Box Styling */
 .box {
   background-color: var(--background-card); /* Use background-card variable */
   border: 1px solid var(--background-button); /* Use background-button variable for the border */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-  padding: 20px;
+  padding: 1.25rem;
   box-sizing: border-box;
   position: relative;
   transition:
@@ -20,7 +13,6 @@
     filter 0.2s;
   cursor: pointer;
   overflow: hidden;
-  max-width: 420px;
   height: 230px;
 }
 

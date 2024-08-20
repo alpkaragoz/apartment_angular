@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   filteredListings: ApartmentListing[] = [];
   listingsOnCurrentPage: ApartmentListing[] = [];
   currentPage = 1;
-  listingsPerPage = 6;
+  listingsPerPage = 12;
   totalPages = 1;
 
   constructor(
