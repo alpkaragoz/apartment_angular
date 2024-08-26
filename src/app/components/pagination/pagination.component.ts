@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pagination',
   standalone: true,
-  imports: [],
+  imports: [TranslateModule],
   template: `
     <div class="pagination">
-      <button (click)="prevPage()">Back</button>
-      <span>Page {{ currentPage }}</span>
-      <button (click)="nextPage()">Next</button>
+      <button (click)="prevPage()">{{ 'pagination.back' | translate }}</button>
+      <span>{{ 'pagination.page' | translate }} {{ currentPage }}</span>
+      <button (click)="nextPage()">{{ 'pagination.next' | translate }}</button>
     </div>
   `,
-  styleUrl: './pagination.component.css',
+  styleUrls: ['./pagination.component.css'],
 })
 export class PaginationComponent {
   @Output() nextEmitter = new EventEmitter();

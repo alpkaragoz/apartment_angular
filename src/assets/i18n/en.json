@@ -1,0 +1,112 @@
+{
+  "loginWelcome": "Welcome to the Dashboard!",
+  "discover": "Discover",
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "registerButton": "Register"
+  },
+  "register": {
+    "joinUs": "Join Us! ↓",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "buttonLabel": "Register"
+  },
+  "listingBox": {
+    "type": "Type:",
+    "price": "Price:",
+    "address": "Address:",
+    "lister": "Lister:",
+    "unknown": "Unknown"
+  },
+  "pagination": {
+    "back": "Back",
+    "next": "Next",
+    "page": "Page"
+  },
+  "searchBar": {
+    "title": "Title",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price",
+    "location": "Location",
+    "rentSale": "Rent/Sale",
+    "placeholders": {
+      "title": "Cheap",
+      "minPrice": "5.000",
+      "maxPrice": "30.000",
+      "location": "Texas"
+    },
+    "options": {
+      "all": "All",
+      "rent": "Rent",
+      "sale": "Sale"
+    }
+  },
+  "topBar": {
+    "addListing": "Add Listing",
+    "myListings": "My Listings",
+    "logout": "Log-Out"
+  },
+  "addListing": {
+    "title": "Add Listing",
+    "listingNameLabel": "Listing Name",
+    "addressLabel": "Address",
+    "ageLabel": "Age",
+    "roomNumberLabel": "Room Number",
+    "priceLabel": "Price",
+    "rentSaleLabel": "Rent or Sale",
+    "hasFurnitureLabel": "Has Furniture",
+    "hasBalconyLabel": "Has Balcony",
+    "bathroomNumberLabel": "Bathroom Number",
+    "homeSquareMeterLabel": "Home Square Meter",
+    "saveButton": "Save",
+    "cancelButton": "Cancel"
+  },
+  "listingEdit": {
+    "editDetailsTitle": "Edit Details",
+    "listingNameLabel": "Listing Name:",
+    "addressLabel": "Address:",
+    "ageLabel": "Age:",
+    "roomNumberLabel": "Room Number:",
+    "priceLabel": "Price:",
+    "rentSaleLabel": "Rent or Sale:",
+    "rentOption": "Rent",
+    "saleOption": "Sale",
+    "hasFurnitureLabel": "Has Furniture:",
+    "hasBalconyLabel": "Has Balcony:",
+    "bathroomNumberLabel": "Bathroom Number:",
+    "homeSquareMeterLabel": "Home Square Meter:",
+    "saveButton": "Save",
+    "deleteButton": "Delete",
+    "cancelButton": "Cancel"
+  },
+  "toastMessages": {
+    "successTitle": "Success",
+    "errorTitle": "Error",
+    "unableToRetrieveData": "Unable to retrieve data.",
+    "loginSuccess": "You have successfully logged in.",
+    "loginFailed": "Login failed. Please check your credentials."
+  },
+  "listingDetails": {
+    "title": "Listing Details",
+    "listingName": "Listing Name",
+    "address": "Address",
+    "age": "Age",
+    "years": "years",
+    "roomNumber": "Room Number",
+    "price": "Price",
+    "rentSale": "Rent or Sale",
+    "hasFurniture": "Has Furniture",
+    "hasBalcony": "Has Balcony",
+    "bathroomNumber": "Bathroom Number",
+    "homeSquareMeter": "Home Square Meter",
+    "lister": "Lister"
+  },
+  "myListings": {
+    "dashboard": "Dashboard",
+    "title": "My Listings",
+    "detailsButton": "Details",
+    "editButton": "Edit"
+  }
+}

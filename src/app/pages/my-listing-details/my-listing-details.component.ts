@@ -4,61 +4,62 @@ import { ApartmentListing } from '../../models/apartment-listing';
 import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../service/toast.service';
 import { DecimalPipe, Location } from '@angular/common';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-listing-details',
   standalone: true,
-  imports: [ToastModule, DecimalPipe],
+  imports: [ToastModule, DecimalPipe, TranslateModule],
   template: `
     <div class="listing-backdrop"></div>
     <p-toast></p-toast>
     <div class="listing-content">
       <button class="close-button" (click)="closeTab()">✕</button>
-      <h2>Listing Details</h2>
+      <h2>{{ 'listingDetails.title' | translate }}</h2>
       <div class="listing-info-container">
         <div class="info-item">
-          <span class="label">Listing Name:</span>
+          <span class="label">{{ 'listingDetails.listingName' | translate }}:</span>
           <span>{{ listing.listingName }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Address:</span>
+          <span class="label">{{ 'listingDetails.address' | translate }}:</span>
           <span>{{ listing.address }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Age:</span>
-          <span>{{ listing.age }} years</span>
+          <span class="label">{{ 'listingDetails.age' | translate }}:</span>
+          <span>{{ listing.age }} {{ 'listingDetails.years' | translate }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Room Number:</span>
+          <span class="label">{{ 'listingDetails.roomNumber' | translate }}:</span>
           <span>{{ listing.roomNumber }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Price:</span>
+          <span class="label">{{ 'listingDetails.price' | translate }}:</span>
           <span>&#8378;{{ listing.price | number: '1.0-0' }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Rent or Sale:</span>
+          <span class="label">{{ 'listingDetails.rentSale' | translate }}:</span>
           <span>{{ listing.rentSale }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Has Furniture:</span>
-          <span>{{ listing.hasFurniture ? 'Yes' : 'No' }}</span>
+          <span class="label">{{ 'listingDetails.hasFurniture' | translate }}:</span>
+          <span>{{ listing.hasFurniture ? 'Yes' : ('No' | translate) }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Has Balcony:</span>
-          <span>{{ listing.hasBalcony ? 'Yes' : 'No' }}</span>
+          <span class="label">{{ 'listingDetails.hasBalcony' | translate }}:</span>
+          <span>{{ listing.hasBalcony ? 'Yes' : ('No' | translate) }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Bathroom Number:</span>
+          <span class="label">{{ 'listingDetails.bathroomNumber' | translate }}:</span>
           <span>{{ listing.bathroomNumber }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Home Square Meter:</span>
+          <span class="label">{{ 'listingDetails.homeSquareMeter' | translate }}:</span>
           <span>{{ listing.homeSquareMeter }} m²</span>
         </div>
         <div class="info-item">
-          <span class="label">Lister:</span>
-          <span>{{ listing.listerEmail ?? 'Unknown' }}</span>
+          <span class="label">{{ 'listingDetails.lister' | translate }}:</span>
+          <span>{{ listing.listerEmail ?? 'Unknown' | translate }}</span>
         </div>
       </div>
     </div>
@@ -71,14 +72,16 @@ export class MyListingDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private toastService: ToastService,
-    private location: Location
+    private location: Location,
+    private translate: TranslateService
   ) {
     this.listing = this.router.getCurrentNavigation()?.extras.state?.['listing'];
   }
 
   ngOnInit(): void {
     if (this.listing == null) {
-      this.toastService.showToast('error', 'Error', 'Unable to retrieve data.');
+      const errorMsg = this.translate.instant('toastMessages.unableToRetrieveData');
+      this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), errorMsg);
       this.location.back();
     }
   }

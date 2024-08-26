@@ -10,6 +10,8 @@ import { ListingBoxComponent } from '../../components/listing-box/listing-box.co
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { TopBarComponent } from '../../components/top-bar/top-bar.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { rentSale } from '../../models/rent-sale';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,16 +24,17 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
     SearchBarComponent,
     TopBarComponent,
     PaginationComponent,
+    TranslateModule,
   ],
   providers: [],
   template: `
     <p-toast />
     <div id="dashboard-container">
       <app-top-bar (addListing)="openAddListing()" (logout)="logout()" (myListings)="openMyListings()" />
-      <h2>Welcome to the Dashboard!</h2>
+      <h2>{{ 'loginWelcome' | translate }}</h2>
       <div id="discover-section">
         <app-search-bar (filter)="filterListings($event)" />
-        <h3>Discover</h3>
+        <h3>{{ 'discover' | translate }}</h3>
         <div class="listing-boxes">
           <app-listing-box
             *ngFor="let listing of listingsOnCurrentPage"
@@ -49,12 +52,15 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
-  listings: ApartmentListing[] = [];
-  filteredListings: ApartmentListing[] = [];
   listingsOnCurrentPage: ApartmentListing[] = [];
   currentPage = 1;
   listingsPerPage = 12;
   totalPages = 1;
+  rentOrSale: rentSale | undefined;
+  minPrice = 0;
+  maxPrice = Infinity;
+  address = '';
+  listingName = '';
 
   constructor(
     private router: Router,
@@ -74,67 +80,62 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  fetchApartmentList() {
-    this.apiService.getApartmentList().subscribe((data: ApartmentListing[]) => {
-      this.listings = data;
-      this.filteredListings = data;
-      this.paginateListings();
-    });
-  }
-
-  paginateListings() {
-    this.totalPages = Math.ceil(this.filteredListings.length / this.listingsPerPage);
-    const startIndex = (this.currentPage - 1) * this.listingsPerPage;
-    this.listingsOnCurrentPage = this.filteredListings.slice(startIndex, startIndex + this.listingsPerPage);
+  fetchApartmentList(page = 0) {
+    this.apiService
+      .getFilteredApartmentListings(
+        this.rentOrSale,
+        this.minPrice,
+        this.maxPrice,
+        this.address,
+        this.listingName,
+        page,
+        this.listingsPerPage
+      )
+      .subscribe((response) => {
+        if (response.body != null) {
+          this.listingsOnCurrentPage = response.body.listings;
+          this.totalPages = response.body.totalPages;
+        }
+      });
   }
 
   filterListings(filterValues: FormGroup) {
-    let filtered = this.listings;
+    this.listingName = filterValues.value.titleControl?.toLowerCase() || '';
+    this.minPrice = filterValues.value.minPriceControl || 0;
+    this.maxPrice = filterValues.value.maxPriceControl || Infinity;
+    this.address = filterValues.value.locationControl?.toLowerCase() || '';
+    this.rentOrSale = filterValues.value.rentSaleControl || '';
 
-    if (filterValues) {
-      const searchTerm = filterValues.value.titleControl?.toLowerCase() || '';
-      const minPrice = filterValues.value.minPriceControl || 0;
-      const maxPrice = filterValues.value.maxPriceControl || Infinity;
-      const location = filterValues.value.locationControl?.toLowerCase() || '';
-      const rentSale = filterValues.value.rentSaleControl || '';
-
-      if (searchTerm) {
-        filtered = filtered.filter((listing) => listing.listingName.toLowerCase().includes(searchTerm));
-      }
-
-      if (minPrice) {
-        filtered = filtered.filter((listing) => listing.price >= minPrice);
-      }
-
-      if (maxPrice) {
-        filtered = filtered.filter((listing) => listing.price <= maxPrice);
-      }
-
-      if (location) {
-        filtered = filtered.filter((listing) => listing.address.toLowerCase().includes(location));
-      }
-
-      if (rentSale) {
-        filtered = filtered.filter((listing) => listing.rentSale === rentSale);
-      }
-    }
-
-    this.filteredListings = filtered;
-    this.currentPage = 1;
-    this.paginateListings();
+    this.currentPage = 1; // Reset to the first page
+    this.apiService
+      .getFilteredApartmentListings(
+        this.rentOrSale,
+        this.minPrice,
+        this.maxPrice,
+        this.address,
+        this.listingName,
+        this.currentPage - 1,
+        this.listingsPerPage
+      )
+      .subscribe((response) => {
+        if (response.body != null) {
+          this.listingsOnCurrentPage = response.body.listings;
+          this.totalPages = response.body.totalPages;
+        }
+      });
   }
 
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.paginateListings();
+      this.fetchApartmentList(this.currentPage - 1);
     }
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.paginateListings();
+      this.fetchApartmentList(this.currentPage - 1);
     }
   }
 

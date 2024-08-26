@@ -7,11 +7,20 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../service/toast.service';
 import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, ButtonModule, ToastModule, ThemeToggleComponent],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    ButtonModule,
+    ToastModule,
+    ThemeToggleComponent,
+    TranslateModule,
+  ],
   template: `
     <div class="main">
       <p-toast></p-toast>
@@ -24,21 +33,26 @@ import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <h1>⌂</h1>
             <div>
-              <label for="email">Email</label>
+              <label for="email">{{ 'login.email' | translate }}</label>
               <input id="email" formControlName="email" type="email" />
-              <label for="password">Password</label>
+              <label for="password">{{ 'login.password' | translate }}</label>
               <input id="password" formControlName="password" type="password" />
             </div>
             <div class="button-group">
               <p-button
                 styleClass="login-button"
-                label="Login"
+                [label]="'login.loginButton' | translate"
                 [loading]="loading"
                 [disabled]="loginForm.invalid"
                 class="p-button-md"
                 (click)="onSubmit()"
-              />
-              <p-button styleClass="register-button" label="Register" [disabled]="loading" routerLink="/register" />
+              ></p-button>
+              <p-button
+                styleClass="register-button"
+                [label]="'login.registerButton' | translate"
+                [disabled]="loading"
+                routerLink="/register"
+              ></p-button>
             </div>
           </form>
         </div>
@@ -56,7 +70,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private apiService: ApiService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -71,8 +86,12 @@ export class LoginComponent {
       this.apiService.login({ email, password }).subscribe({
         next: (response) => {
           if (response.status === 200 && response.body != null) {
-            this.apiService.saveToken(response.body.token);
-            this.toastService.showToast('success', 'Success', response.body.message);
+            this.apiService.saveCredentials(response.body.token, response.body.id);
+            this.toastService.showToast(
+              'success',
+              this.translate.instant('toastMessages.successTitle'),
+              this.translate.instant('toastMessages.loginSuccess')
+            );
             setTimeout(() => {
               this.router.navigate(['/dashboard']);
               this.loading = false; // Set loading state to false
@@ -80,7 +99,11 @@ export class LoginComponent {
           }
         },
         error: (err) => {
-          this.toastService.showToast('error', 'Error', err.error.message);
+          this.toastService.showToast(
+            'error',
+            this.translate.instant('toastMessages.errorTitle'),
+            err.error.message || this.translate.instant('toastMessages.loginFailed')
+          );
           this.loading = false; // Set loading state to false
         },
       });

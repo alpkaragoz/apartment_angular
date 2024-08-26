@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ApartmentListing } from '../../models/apartment-listing';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-listing-box',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   template: `
     <div class="box" tabindex="0" (click)="onClick()" (keydown.enter)="onClick()">
       <div class="box-content">
@@ -13,24 +14,32 @@ import { CommonModule } from '@angular/common';
         <div class="listing-details">
           <div class="listing-title">{{ listing.listingName }}</div>
           <div class="listing-info">
-            <div class="listing-item"><span class="label">Type:</span> {{ listing.rentSale }}</div>
             <div class="listing-item">
-              <span class="label">Price:</span> &#8378;{{ listing.price | number: '1.0-0' }}
+              <span class="label">{{ 'listingBox.type' | translate }}</span> {{ listing.rentSale }}
             </div>
-            <div class="listing-item"><span class="label">Address:</span> {{ listing.address }}</div>
-            <div class="listing-item"><span class="label">Lister:</span> {{ listing.listerEmail ?? 'Unknown' }}</div>
+            <div class="listing-item">
+              <span class="label">{{ 'listingBox.price' | translate }}</span> &#8378;{{
+                listing.price | number: '1.0-0'
+              }}
+            </div>
+            <div class="listing-item">
+              <span class="label">{{ 'listingBox.address' | translate }}</span> {{ listing.address }}
+            </div>
+            <div class="listing-item">
+              <span class="label">{{ 'listingBox.lister' | translate }}</span>
+              {{ listing.listerEmail ?? ('listingBox.unknown' | translate) }}
+            </div>
           </div>
         </div>
       </div>
       <ng-content></ng-content>
-      <!-- This is where additional content can be projected -->
     </div>
   `,
   styleUrls: ['./listing-box.component.css'],
 })
 export class ListingBoxComponent {
-  @Input() listing!: ApartmentListing; // Input property to receive listing data
-  @Output() listingClicked = new EventEmitter<ApartmentListing>(); // Output event to notify parent when listing is clicked
+  @Input() listing!: ApartmentListing;
+  @Output() listingClicked = new EventEmitter<ApartmentListing>();
 
   onClick() {
     this.listingClicked.emit(this.listing);

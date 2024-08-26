@@ -5,29 +5,30 @@ import { ApiService } from '../../service/api.service';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../service/toast.service';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, ToastModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, ToastModule, TranslateModule],
   template: `
     <div class="main">
       <div class="backdrop"></div>
       <p-toast></p-toast>
       <div class="register-container">
         <div class="register-form">
-          <h2>Join Us! ↓</h2>
+          <h2>{{ 'register.joinUs' | translate }}</h2>
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" [class.loading]="loading">
             <div>
-              <label for="email">Email</label>
+              <label for="email">{{ 'register.emailLabel' | translate }}</label>
               <input id="email" formControlName="email" type="email" [disabled]="loading" />
             </div>
             <div>
-              <label for="password">Password</label>
+              <label for="password">{{ 'register.passwordLabel' | translate }}</label>
               <input id="password" formControlName="password" type="password" [disabled]="loading" />
             </div>
             <p-button
-              label="Register"
+              label="{{ 'register.buttonLabel' | translate }}"
               [disabled]="registerForm.invalid"
               [loading]="loading"
               severity="success"
@@ -48,7 +49,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translate: TranslateService // Inject TranslateService
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -64,11 +66,15 @@ export class RegisterComponent {
         next: (response) => {
           if (response.status == 200 && response.body != null) {
             this.loading = false;
-            this.toastService.showToast('success', 'Success', response.body.message);
+            this.toastService.showToast(
+              'success',
+              this.translate.instant('toastMessages.successTitle'),
+              response.body.message
+            );
           }
         },
         error: (err) => {
-          this.toastService.showToast('error', 'Error', err.error.message);
+          this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), err.error);
           this.loading = false;
         },
       });

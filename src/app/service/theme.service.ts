@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ThemeService {
   private themeKey = 'theme';
+  private readonly THEME_KEY = 'app_theme';
 
   constructor() {
     this.loadTheme();

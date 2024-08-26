@@ -1,39 +1,64 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslateModule],
   template: `
     <form class="search-form" [formGroup]="searchGroup">
       <div>
-        <label for="title">Title</label>
-        <input id="title" type="text" placeholder="Cheap" formControlName="titleControl" (input)="onFilter()" />
+        <label for="title">{{ 'searchBar.title' | translate }}</label>
+        <input
+          id="title"
+          type="text"
+          [placeholder]="'searchBar.placeholders.title' | translate"
+          formControlName="titleControl"
+          (input)="onFilter()"
+        />
       </div>
       <div>
-        <label for="minPrice">Min Price</label>
-        <input id="minPrice" type="number" placeholder="5.000" formControlName="minPriceControl" (input)="onFilter()" />
+        <label for="minPrice">{{ 'searchBar.minPrice' | translate }}</label>
+        <input
+          id="minPrice"
+          type="number"
+          [placeholder]="'searchBar.placeholders.minPrice' | translate"
+          formControlName="minPriceControl"
+          (input)="onFilter()"
+        />
       </div>
       <div>
-        <label for="maxPrice">Max Price</label>
-        <input id="maxPrice" type="number" placeholder="30.000" formControlName="maxPriceControl" (input)="onFilter()" />
+        <label for="maxPrice">{{ 'searchBar.maxPrice' | translate }}</label>
+        <input
+          id="maxPrice"
+          type="number"
+          [placeholder]="'searchBar.placeholders.maxPrice' | translate"
+          formControlName="maxPriceControl"
+          (input)="onFilter()"
+        />
       </div>
       <div>
-        <label for="location">Location</label>
-        <input id="location" type="text" placeholder="Texas" formControlName="locationControl" (input)="onFilter()" />
+        <label for="location">{{ 'searchBar.location' | translate }}</label>
+        <input
+          id="location"
+          type="text"
+          [placeholder]="'searchBar.placeholders.location' | translate"
+          formControlName="locationControl"
+          (input)="onFilter()"
+        />
       </div>
       <div>
-        <label for="rentSale">Rent/Sale</label>
+        <label for="rentSale">{{ 'searchBar.rentSale' | translate }}</label>
         <select id="rentSale" formControlName="rentSaleControl" (change)="onFilter()">
-          <option value="">All</option>
-          <option value="RENT">Rent</option>
-          <option value="SALE">Sale</option>
+          <option value="">{{ 'searchBar.options.all' | translate }}</option>
+          <option value="RENT">{{ 'searchBar.options.rent' | translate }}</option>
+          <option value="SALE">{{ 'searchBar.options.sale' | translate }}</option>
         </select>
       </div>
     </form>
   `,
-  styleUrl: './search-bar.component.css',
+  styleUrls: ['./search-bar.component.css'],
 })
 export class SearchBarComponent {
   searchGroup = new FormGroup({

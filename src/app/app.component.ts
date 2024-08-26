@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
+import { LanguageService } from './service/language.service';
+import { ThemeService } from './service/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,14 @@ import { LoginComponent } from './pages/login/login.component';
   imports: [RouterOutlet, LoginComponent],
   template: '<router-outlet></router-outlet>',
 })
-export class AppComponent {
-  title = 'apartment_app';
+export class AppComponent implements OnInit {
+  constructor(
+    private languageService: LanguageService,
+    private themeService: ThemeService
+  ) {}
+
+  ngOnInit() {
+    this.languageService.getCurrentLanguage();
+    this.themeService.getTheme();
+  }
 }

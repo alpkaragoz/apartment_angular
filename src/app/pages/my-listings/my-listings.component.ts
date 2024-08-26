@@ -9,28 +9,45 @@ import { Router, RouterModule } from '@angular/router';
 import { MyListingEditComponent } from '../my-listing-edit/my-listing-edit.component';
 import { Subscription } from 'rxjs';
 import { ListingBoxComponent } from '../../components/listing-box/listing-box.component';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-listings',
   standalone: true,
-  imports: [CommonModule, ToastModule, ButtonModule, RouterModule, MyListingEditComponent, ListingBoxComponent],
+  imports: [
+    CommonModule,
+    ToastModule,
+    ButtonModule,
+    RouterModule,
+    MyListingEditComponent,
+    ListingBoxComponent,
+    TranslateModule,
+  ],
   template: `
     <div id="background">
       <div id="main">
         <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"></p-toast>
         <div id="discover-section">
-          <button class="back-button" (click)="goBack()">< Dashboard</button>
-          <h2>My Listings</h2>
+          <button class="back-button" (click)="goBack()">&#x3C; {{ 'myListings.dashboard' | translate }}</button>
+          <h2>{{ 'myListings.title' | translate }}</h2>
           <div class="listing-boxes">
             <app-listing-box class="box" *ngFor="let listing of myListings" [listing]="listing">
               <div class="edit-overlay">
-                <p-button id="view-hover" (click)="openDetails(listing)">Details</p-button>
-                <p-button id="edit-hover" (click)="openEdit(listing)">Edit</p-button>
+                <p-button
+                  id="view-hover"
+                  (click)="openDetails(listing)"
+                  [label]="'myListings.detailsButton' | translate"
+                ></p-button>
+                <p-button
+                  id="edit-hover"
+                  (click)="openEdit(listing)"
+                  [label]="'myListings.editButton' | translate"
+                ></p-button>
               </div>
             </app-listing-box>
           </div>
         </div>
-        <router-outlet> </router-outlet>
+        <router-outlet></router-outlet>
       </div>
     </div>
   `,
@@ -43,7 +60,8 @@ export class MyListingsComponent implements OnInit, OnDestroy {
   constructor(
     private apiService: ApiService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService // Inject TranslateService
   ) {}
 
   ngOnInit() {
@@ -60,14 +78,14 @@ export class MyListingsComponent implements OnInit, OnDestroy {
   }
 
   fetchMyListings() {
-    this.apiService.getMyListings().subscribe({
+    this.apiService.getUserListings().subscribe({
       next: (response) => {
         if (response.status === 200 && response.body != null) {
           this.myListings = response.body.listings;
         }
       },
       error: (err) => {
-        this.toastService.showToast(err.error.messageSeverity, 'Error', err.error.message);
+        this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), err.error.message);
       },
     });
   }

@@ -4,40 +4,40 @@ import { CommonModule, Location } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { ToastService } from '../../service/toast.service';
 import { ButtonModule } from 'primeng/button';
-import { MessageService } from 'primeng/api';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-listing',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, TranslateModule],
   template: `
     <div class="listing-backdrop"></div>
     <div class="listing-content">
       <button class="close-button" (click)="closeListing()">✕</button>
-      <h2>Add Listing</h2>
+      <h2>{{ 'addListing.title' | translate }}</h2>
       <form [formGroup]="listingForm" (ngSubmit)="saveListing($event)">
         <div>
-          <label for="listingName">Listing Name</label>
+          <label for="listingName">{{ 'addListing.listingNameLabel' | translate }}</label>
           <input id="listingName" formControlName="listingName" type="text" />
         </div>
         <div>
-          <label for="address">Address</label>
+          <label for="address">{{ 'addListing.addressLabel' | translate }}</label>
           <input id="address" formControlName="address" type="text" />
         </div>
         <div>
-          <label for="age">Age</label>
+          <label for="age">{{ 'addListing.ageLabel' | translate }}</label>
           <input id="age" formControlName="age" type="number" />
         </div>
         <div>
-          <label for="roomNumber">Room Number</label>
+          <label for="roomNumber">{{ 'addListing.roomNumberLabel' | translate }}</label>
           <input id="roomNumber" formControlName="roomNumber" type="number" />
         </div>
         <div>
-          <label for="price">Price</label>
+          <label for="price">{{ 'addListing.priceLabel' | translate }}</label>
           <input id="price" formControlName="price" type="number" />
         </div>
         <div>
-          <label for="rentSale">Rent or Sale</label>
+          <label for="rentSale">{{ 'addListing.rentSaleLabel' | translate }}</label>
           <select id="rentSale" formControlName="rentSale">
             <option value="RENT">Rent</option>
             <option value="SALE">Sale</option>
@@ -45,32 +45,37 @@ import { MessageService } from 'primeng/api';
         </div>
         <div class="checkbox-group">
           <div>
-            <label for="hasFurniture">Has Furniture</label>
+            <label for="hasFurniture">{{ 'addListing.hasFurnitureLabel' | translate }}</label>
             <input id="hasFurniture" formControlName="hasFurniture" type="checkbox" />
           </div>
           <div>
-            <label for="hasBalcony">Has Balcony</label>
+            <label for="hasBalcony">{{ 'addListing.hasBalconyLabel' | translate }}</label>
             <input id="hasBalcony" formControlName="hasBalcony" type="checkbox" />
           </div>
         </div>
         <div>
-          <label for="bathroomNumber">Bathroom Number</label>
+          <label for="bathroomNumber">{{ 'addListing.bathroomNumberLabel' | translate }}</label>
           <input id="bathroomNumber" formControlName="bathroomNumber" type="number" />
         </div>
         <div>
-          <label for="homeSquareMeter">Home Square Meter</label>
+          <label for="homeSquareMeter">{{ 'addListing.homeSquareMeterLabel' | translate }}</label>
           <input id="homeSquareMeter" formControlName="homeSquareMeter" type="number" />
         </div>
         <div class="form-buttons">
           <p-button
             styleClass="save-button"
             type="submit"
-            label="Save"
+            [label]="'addListing.saveButton' | translate"
             [disabled]="listingForm.invalid"
             [loading]="loading"
             class="p-button-md"
           />
-          <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeListing()" />
+          <p-button
+            styleClass="cancel-button"
+            [label]="'addListing.cancelButton' | translate"
+            class="p-button-md"
+            (click)="closeListing()"
+          />
         </div>
       </form>
     </div>
@@ -86,7 +91,7 @@ export class AddListingComponent {
     private apiService: ApiService,
     private toastService: ToastService,
     private location: Location,
-    private messageService: MessageService
+    private translate: TranslateService // Inject TranslateService
   ) {
     this.listingForm = this.fb.group({
       listingName: ['', [Validators.required]],
@@ -110,14 +115,16 @@ export class AddListingComponent {
       this.apiService.createListing(listing).subscribe({
         next: (response) => {
           if (response.status === 200 && response.body != null) {
-            this.toastService.showToast('success', 'Success', response.body.message);
+            const successTitle = this.translate.instant('toastMessages.successTitle');
+            this.toastService.showToast('success', successTitle, response.body.message);
             this.loading = false;
             this.closeListing();
           }
         },
         error: (err) => {
           this.loading = false;
-          this.toastService.showToast('error', 'Error', err.error.message);
+          const errorTitle = this.translate.instant('toastMessages.errorTitle');
+          this.toastService.showToast('error', errorTitle, err.error);
         },
       });
     }

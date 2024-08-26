@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, Subject, tap } from 'rxjs';
 import { ApartmentListing } from '../models/apartment-listing';
 import { LoginRequestDTO } from '../dto/login-request-dto';
 import { MessageRequestDTO } from '../dto/message-request-dto';
 import { MyListingsRequestDTO } from '../dto/my-listings-request-dto';
+import { rentSale } from '../models/rent-sale';
+import { FilteredListingsRequestDto } from '../dto/filtered-listings-request-dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   private readonly TOKEN_KEY = 'auth_token';
+  private readonly ID_KEY = 'auth_id';
 
   private listingUpdatedSource = new Subject<void>();
   listingUpdated$ = this.listingUpdatedSource.asObservable();
@@ -22,14 +25,20 @@ export class ApiService {
   }
 
   login(user: { email: string; password: string }): Observable<HttpResponse<LoginRequestDTO>> {
-    const apiUrl = 'http://localhost:8080/api/users/login';
+    const apiUrl = 'http://localhost:8080/api/auth/tokens';
     return this.http.post<LoginRequestDTO>(apiUrl, user, {
       observe: 'response',
     });
   }
 
+  isTokenValid(): Observable<HttpResponse<void>> {
+    const headers = { Authorization: `Bearer ${this.getToken()}` };
+    const apiUrl = 'http://localhost:8080/api/auth/tokens';
+    return this.http.get<void>(apiUrl, { headers, observe: 'response' });
+  }
+
   register(user: { email: string; password: string }): Observable<HttpResponse<MessageRequestDTO>> {
-    const apiUrl = 'http://localhost:8080/api/users/register';
+    const apiUrl = 'http://localhost:8080/api/users';
     return this.http.post<MessageRequestDTO>(apiUrl, user, {
       observe: 'response',
     });
@@ -37,42 +46,88 @@ export class ApiService {
 
   getApartmentList(): Observable<ApartmentListing[]> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
-    const apiUrl = 'http://localhost:8080/api/apartments/lists';
+    const apiUrl = 'http://localhost:8080/api/apartments';
     return this.http.get<ApartmentListing[]>(apiUrl, { headers });
   }
 
-  getMyListings(): Observable<HttpResponse<MyListingsRequestDTO>> {
+  getUserListings(): Observable<HttpResponse<MyListingsRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
-    const apiUrl = 'http://localhost:8080/api/apartments/my-listings';
+    const userId = this.getId();
+    const apiUrl = `http://localhost:8080/api/users/${userId}/apartments`;
     return this.http.get<MyListingsRequestDTO>(apiUrl, { headers, observe: 'response' });
   }
 
   updateMyListing(listing: ApartmentListing): Observable<HttpResponse<MessageRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
-    const apiUrl = 'http://localhost:8080/api/apartments/my-listings/edit';
-    return this.http.post<MessageRequestDTO>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
+    const userId = this.getId();
+    const apiUrl = `http://localhost:8080/api/users/${userId}/apartments/${listing.id}`;
+    return this.http
+      .put<MessageRequestDTO>(apiUrl, listing, { headers, observe: 'response' })
+      .pipe(tap(() => this.notifyListingUpdated()));
   }
 
-  deleteMyListing(listing: ApartmentListing): Observable<HttpResponse<MessageRequestDTO>> {
+  deleteUserListing(apartmentId: number): Observable<HttpResponse<MessageRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
-    const apiUrl = 'http://localhost:8080/api/apartments/my-listings/delete';
-    return this.http.post<MessageRequestDTO>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
+    const userId = this.getId();
+    const apiUrl = `http://localhost:8080/api/users/${userId}/apartments/${apartmentId}`;
+    return this.http
+      .delete<MessageRequestDTO>(apiUrl, { headers, observe: 'response' })
+      .pipe(tap(() => this.notifyListingUpdated()));
   }
 
   createListing(listing: ApartmentListing): Observable<HttpResponse<MessageRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
-    const apiUrl = 'http://localhost:8080/api/apartments/create-listing';
-    return this.http.post<MessageRequestDTO>(apiUrl, listing, { headers, observe: 'response' }).pipe(tap(() => this.notifyListingUpdated()));
+    const userId = this.getId();
+    const apiUrl = `http://localhost:8080/api/users/${userId}/apartments`;
+    return this.http
+      .post<MessageRequestDTO>(apiUrl, listing, { headers, observe: 'response' })
+      .pipe(tap(() => this.notifyListingUpdated()));
   }
 
-  isTokenValid(): Observable<HttpResponse<MessageRequestDTO>> {
+  getFilteredApartmentListings(
+    rentSale?: rentSale,
+    minPrice?: number,
+    maxPrice?: number,
+    address?: string,
+    listingName?: string,
+    page?: number,
+    size?: number
+  ): Observable<HttpResponse<FilteredListingsRequestDto>> {
+    let params = new HttpParams();
     const headers = { Authorization: `Bearer ${this.getToken()}` };
-    const apiUrl = 'http://localhost:8080/api/validate-token';
-    return this.http.get<MessageRequestDTO>(apiUrl, { headers, observe: 'response' });
+
+    if (rentSale) {
+      params = params.set('rentSale', rentSale);
+    }
+    if (minPrice !== undefined) {
+      params = params.set('minPrice', minPrice.toString());
+    }
+    if (maxPrice !== undefined) {
+      params = params.set('maxPrice', maxPrice.toString());
+    }
+    if (address) {
+      params = params.set('address', address);
+    }
+    if (listingName) {
+      params = params.set('listingName', listingName);
+    }
+    if (page !== undefined) {
+      params = params.set('page', page.toString());
+    }
+    if (size !== undefined) {
+      params = params.set('size', size.toString());
+    }
+
+    return this.http.get<FilteredListingsRequestDto>(`http://localhost:8080/api/apartments/filter`, {
+      headers,
+      params,
+      observe: 'response',
+    });
   }
 
-  saveToken(token: string): void {
+  saveCredentials(token: string, id: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
+    localStorage.setItem(this.ID_KEY, id);
   }
 
   removeToken(): void {
@@ -81,5 +136,13 @@ export class ApiService {
 
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  removeId() {
+    localStorage.removeItem(this.ID_KEY);
+  }
+
+  getId(): string | null {
+    return localStorage.getItem(this.ID_KEY);
   }
 }

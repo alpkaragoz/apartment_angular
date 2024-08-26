@@ -1,0 +1,113 @@
+{
+  "loginWelcome": "Pano'ya Hoş Geldiniz!",
+  "discover": "Keşfet",
+  "login": {
+    "email": "E-posta",
+    "password": "Şifre",
+    "loginButton": "Giriş Yap",
+    "registerButton": "Kayıt Ol"
+  },
+  "listingBox": {
+    "type": "Tür:",
+    "price": "Fiyat:",
+    "address": "Adres:",
+    "lister": "İlan Sahibi:",
+    "unknown": "Bilinmiyor"
+  },
+  "register": {
+    "joinUs": "Bize Katıl! ↓",
+    "emailLabel": "E-posta",
+    "passwordLabel": "Şifre",
+    "buttonLabel": "Kaydol"
+  },
+  "pagination": {
+    "back": "Geri",
+    "next": "İleri",
+    "page": "Sayfa"
+  },
+  "searchBar": {
+    "title": "Başlık",
+    "minPrice": "En Düşük Fiyat",
+    "maxPrice": "En Yüksek Fiyat",
+    "location": "Konum",
+    "rentSale": "Kiralık/Satılık",
+    "placeholders": {
+      "title": "Ucuz",
+      "minPrice": "5.000",
+      "maxPrice": "30.000",
+      "location": "İstanbul"
+    },
+    "options": {
+      "all": "Hepsi",
+      "rent": "Kiralık",
+      "sale": "Satılık"
+    }
+  },
+  "topBar": {
+    "addListing": "İlan Ekle",
+    "myListings": "İlanlarım",
+    "logout": "Çıkış Yap"
+  },
+
+  "addListing": {
+    "title": "İlan Ekle",
+    "listingNameLabel": "İlan Adı",
+    "addressLabel": "Adres",
+    "ageLabel": "Yaş",
+    "roomNumberLabel": "Oda Sayısı",
+    "priceLabel": "Fiyat",
+    "rentSaleLabel": "Kiralık veya Satılık",
+    "hasFurnitureLabel": "Mobilyalı",
+    "hasBalconyLabel": "Balkonlu",
+    "bathroomNumberLabel": "Banyo Sayısı",
+    "homeSquareMeterLabel": "Ev Metrekare",
+    "saveButton": "Kaydet",
+    "cancelButton": "İptal"
+  },
+  "listingEdit": {
+    "editDetailsTitle": "Detayları Düzenle",
+    "listingNameLabel": "İlan Adı:",
+    "addressLabel": "Adres:",
+    "ageLabel": "Yaş:",
+    "roomNumberLabel": "Oda Sayısı:",
+    "priceLabel": "Fiyat:",
+    "rentSaleLabel": "Kiralık veya Satılık:",
+    "rentOption": "Kiralık",
+    "saleOption": "Satılık",
+    "hasFurnitureLabel": "Mobilyalı:",
+    "hasBalconyLabel": "Balkonlu:",
+    "bathroomNumberLabel": "Banyo Sayısı:",
+    "homeSquareMeterLabel": "Metrekare:",
+    "saveButton": "Kaydet",
+    "deleteButton": "Sil",
+    "cancelButton": "İptal"
+  },
+  "toastMessages": {
+    "successTitle": "Başarılı",
+    "errorTitle": "Hata",
+    "unableToRetrieveData": "Veri alınamadı.",
+    "loginSuccess": "Başarıyla giriş yaptınız.",
+    "loginFailed": "Giriş başarısız. Lütfen bilgilerinizi kontrol edin."
+  },
+  "listingDetails": {
+    "title": "İlan Detayları",
+    "listingName": "İlan Adı",
+    "address": "Adres",
+    "age": "Yaş",
+    "years": "yıl",
+    "roomNumber": "Oda Sayısı",
+    "price": "Fiyat",
+    "rentSale": "Kiralık veya Satılık",
+    "hasFurniture": "Mobilyalı",
+    "hasBalcony": "Balkon Var mı",
+    "bathroomNumber": "Banyo Sayısı",
+    "homeSquareMeter": "Ev Metrekare",
+    "lister": "Listeleyen"
+  },
+  "myListings": {
+    "dashboard": "Panel",
+    "title": "İlanlarım",
+    "detailsButton": "Detaylar",
+    "editButton": "Düzenle"
+  }
+}

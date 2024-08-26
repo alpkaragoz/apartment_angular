@@ -31,3 +31,26 @@
 .top-bar-button:hover {
   background-color: var(--secondary-color); /* Use secondary-color variable for hover */
 }
+
+.language-toggle-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.language-icon {
+  width: 44px;
+  height: 44px;
+  background-image: url('/assets/icons/globe-icon.svg'); /* Use a globe icon or any language-related icon */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.language-toggle-button:hover .language-icon {
+  filter: brightness(0.8);
+}

@@ -8,78 +8,84 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../service/api.service';
 import { ButtonModule } from 'primeng/button';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-listing-edit',
   standalone: true,
-  imports: [ToastModule, DecimalPipe, MatIconModule, CommonModule, ReactiveFormsModule, ButtonModule],
+  imports: [ToastModule, DecimalPipe, MatIconModule, CommonModule, ReactiveFormsModule, ButtonModule, TranslateModule],
   template: `
     <div class="listing-backdrop"></div>
     <p-toast></p-toast>
     <div class="listing-content">
       <button class="close-button" (click)="closeTab()">✕</button>
-      <h2>Edit Details</h2>
+      <h2>{{ 'listingEdit.editDetailsTitle' | translate }}</h2>
       <div class="listing-info-container">
         <form [formGroup]="listingForm">
           <div class="info-item">
-            <label for="listingName">Listing Name:</label>
+            <label for="listingName">{{ 'listingEdit.listingNameLabel' | translate }}</label>
             <input id="listingName" formControlName="listingName" />
           </div>
           <div class="info-item">
-            <label for="address">Address:</label>
+            <label for="address">{{ 'listingEdit.addressLabel' | translate }}</label>
             <input id="address" formControlName="address" />
           </div>
           <div class="info-item">
-            <label for="age">Age:</label>
+            <label for="age">{{ 'listingEdit.ageLabel' | translate }}</label>
             <input id="age" type="number" formControlName="age" />
           </div>
           <div class="info-item">
-            <label for="roomNumber">Room Number:</label>
+            <label for="roomNumber">{{ 'listingEdit.roomNumberLabel' | translate }}</label>
             <input id="roomNumber" type="number" formControlName="roomNumber" />
           </div>
           <div class="info-item">
-            <label for="price">Price:</label>
+            <label for="price">{{ 'listingEdit.priceLabel' | translate }}</label>
             <input id="price" type="number" formControlName="price" />
           </div>
           <div class="info-item">
-            <label for="rentSale">Rent or Sale:</label>
+            <label for="rentSale">{{ 'listingEdit.rentSaleLabel' | translate }}</label>
             <select id="rentSale" formControlName="rentSale">
-              <option value="Rent">Rent</option>
-              <option value="Sale">Sale</option>
+              <option value="Rent">{{ 'listingEdit.rentOption' | translate }}</option>
+              <option value="Sale">{{ 'listingEdit.saleOption' | translate }}</option>
             </select>
           </div>
           <div class="info-item">
-            <label for="hasFurniture">Has Furniture:</label>
+            <label for="hasFurniture">{{ 'listingEdit.hasFurnitureLabel' | translate }}</label>
             <input id="hasFurniture" type="checkbox" formControlName="hasFurniture" />
           </div>
           <div class="info-item">
-            <label for="hasBalcony">Has Balcony:</label>
+            <label for="hasBalcony">{{ 'listingEdit.hasBalconyLabel' | translate }}</label>
             <input id="hasBalcony" type="checkbox" formControlName="hasBalcony" />
           </div>
           <div class="info-item">
-            <label for="bathroomNumber">Bathroom Number:</label>
+            <label for="bathroomNumber">{{ 'listingEdit.bathroomNumberLabel' | translate }}</label>
             <input id="bathroomNumber" type="number" formControlName="bathroomNumber" />
           </div>
           <div class="info-item">
-            <label for="homeSquareMeter">Home Square Meter:</label>
+            <label for="homeSquareMeter">{{ 'listingEdit.homeSquareMeterLabel' | translate }}</label>
             <input id="homeSquareMeter" type="number" formControlName="homeSquareMeter" />
           </div>
           <div class="form-buttons">
             <p-button
               styleClass="save-button"
-              label="Save"
+              [label]="'listingEdit.saveButton' | translate"
               [disabled]="listingForm.invalid"
               class="p-button-md"
               (click)="updateListing()"
-            />
+            ></p-button>
             <p-button
               styleClass="delete-button"
-              label="Delete"
+              [label]="'listingEdit.deleteButton' | translate"
               [disabled]="listingForm.invalid"
               class="p-button-md"
               (click)="deleteListing()"
-            />
-            <p-button styleClass="cancel-button" label="Cancel" class="p-button-md" (click)="closeTab()" />
+            ></p-button>
+            <p-button
+              styleClass="cancel-button"
+              [label]="'listingEdit.cancelButton' | translate"
+              class="p-button-md"
+              (click)="closeTab()"
+            ></p-button>
           </div>
         </form>
       </div>
@@ -96,7 +102,8 @@ export class MyListingEditComponent implements OnInit {
     private toastService: ToastService,
     private location: Location,
     private formBuilder: FormBuilder,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private translate: TranslateService // Inject TranslateService
   ) {
     this.listing = this.router.getCurrentNavigation()?.extras.state?.['listing'];
     this.listingForm = this.formBuilder.group({
@@ -111,12 +118,17 @@ export class MyListingEditComponent implements OnInit {
       hasBalcony: [this.listing.hasBalcony],
       bathroomNumber: [this.listing.bathroomNumber, [Validators.required, Validators.min(0)]],
       homeSquareMeter: [this.listing.homeSquareMeter, [Validators.required, Validators.min(0)]],
+      listerEmail: this.listing.listerEmail,
     });
   }
 
   ngOnInit() {
     if (this.listing == null) {
-      this.toastService.showToast('error', 'Error', 'Unable to retrieve data.');
+      this.toastService.showToast(
+        'error',
+        this.translate.instant('toastMessages.errorTitle'),
+        this.translate.instant('toastMessages.unableToRetrieveData')
+      );
       this.location.back();
     }
   }
@@ -127,13 +139,16 @@ export class MyListingEditComponent implements OnInit {
       this.apiService.updateMyListing(updatedListing).subscribe({
         next: (response) => {
           if (response.status === 200 && response.body != null) {
-            this.toastService.showToast('success', 'Success', response.body.message);
+            this.toastService.showToast(
+              'success',
+              this.translate.instant('toastMessages.successTitle'),
+              response.body.message
+            );
             this.location.back();
           }
         },
         error: (error) => {
-          this.toastService.showToast('error', 'Error', error.error.message);
-          this.location.back();
+          this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), error.error.message);
         },
       });
     }
@@ -141,16 +156,19 @@ export class MyListingEditComponent implements OnInit {
 
   deleteListing(): void {
     const updatedListing: ApartmentListing = this.listingForm.value;
-    this.apiService.deleteMyListing(updatedListing).subscribe({
+    this.apiService.deleteUserListing(updatedListing.id).subscribe({
       next: (response) => {
         if (response.status === 200 && response.body != null) {
-          this.toastService.showToast('success', 'Success', response.body.message);
+          this.toastService.showToast(
+            'success',
+            this.translate.instant('toastMessages.successTitle'),
+            response.body.message
+          );
           this.location.back();
         }
       },
       error: (error) => {
-        this.toastService.showToast('error', 'Error', error.error.message);
-        this.location.back();
+        this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), error.error.message);
       },
     });
   }
