@@ -44,12 +44,6 @@ export class ApiService {
     });
   }
 
-  getApartmentList(): Observable<ApartmentListing[]> {
-    const headers = { Authorization: `Bearer ${this.getToken()}` };
-    const apiUrl = 'http://localhost:8080/api/apartments';
-    return this.http.get<ApartmentListing[]>(apiUrl, { headers });
-  }
-
   getUserListings(): Observable<HttpResponse<MyListingsRequestDTO>> {
     const headers = { Authorization: `Bearer ${this.getToken()}` };
     const userId = this.getId();
@@ -118,7 +112,7 @@ export class ApiService {
       params = params.set('size', size.toString());
     }
 
-    return this.http.get<FilteredListingsRequestDto>(`http://localhost:8080/api/apartments/filter`, {
+    return this.http.get<FilteredListingsRequestDto>(`http://localhost:8080/api/apartments`, {
       headers,
       params,
       observe: 'response',
