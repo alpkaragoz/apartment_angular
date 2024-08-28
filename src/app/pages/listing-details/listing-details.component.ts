@@ -5,6 +5,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../service/toast.service';
 import { DecimalPipe, Location } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { rentSale } from '../../models/rent-sale';
 
 @Component({
   selector: 'app-listing-details',
@@ -39,7 +40,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
         </div>
         <div class="info-item">
           <span class="label">{{ 'listingDetails.rentSale' | translate }}:</span>
-          <span>{{ listing.rentSale }}</span>
+          <span>{{ getTranslatedRentSale() }}</span>
         </div>
         <div class="info-item">
           <span class="label">{{ 'listingDetails.hasFurniture' | translate }}:</span>
@@ -84,6 +85,15 @@ export class ListingDetailsComponent implements OnInit {
       this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), errorMsg);
       this.location.back();
     }
+  }
+
+  getTranslatedRentSale(): string {
+    if (this.listing.rentSale.valueOf() === rentSale.RENT) {
+      return this.translate.instant('listingEdit.rentOption');
+    } else if (this.listing.rentSale.valueOf() === rentSale.SALE.valueOf()) {
+      return this.translate.instant('listingEdit.saleOption');
+    }
+    return 'Not Found'; // Fallback value
   }
 
   closeTab() {

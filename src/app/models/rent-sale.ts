@@ -1,4 +1,4 @@
 export enum rentSale {
-  RENT,
-  SALE,
+  RENT = 'RENT',
+  SALE = 'SALE',
 }

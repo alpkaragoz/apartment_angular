@@ -45,8 +45,8 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
           <div class="info-item">
             <label for="rentSale">{{ 'listingEdit.rentSaleLabel' | translate }}</label>
             <select id="rentSale" formControlName="rentSale">
-              <option value="Rent">{{ 'listingEdit.rentOption' | translate }}</option>
-              <option value="Sale">{{ 'listingEdit.saleOption' | translate }}</option>
+              <option value="RENT">{{ 'listingEdit.rentOption' | translate }}</option>
+              <option value="SALE">{{ 'listingEdit.saleOption' | translate }}</option>
             </select>
           </div>
           <div class="info-item">

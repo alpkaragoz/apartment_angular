@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ApartmentListing } from '../../models/apartment-listing';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { rentSale } from '../../models/rent-sale';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-listing-box',
@@ -15,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
           <div class="listing-title">{{ listing.listingName }}</div>
           <div class="listing-info">
             <div class="listing-item">
-              <span class="label">{{ 'listingBox.type' | translate }}</span> {{ listing.rentSale }}
+              <span class="label">{{ 'listingBox.type' | translate }}</span> {{ getTranslatedRentSale() }}
             </div>
             <div class="listing-item">
               <span class="label">{{ 'listingBox.price' | translate }}</span> &#8378;{{
@@ -41,7 +43,18 @@ export class ListingBoxComponent {
   @Input() listing!: ApartmentListing;
   @Output() listingClicked = new EventEmitter<ApartmentListing>();
 
+  constructor(private translate: TranslateService) {}
+
   onClick() {
     this.listingClicked.emit(this.listing);
+  }
+
+  getTranslatedRentSale(): string {
+    if (this.listing.rentSale.valueOf() === rentSale.RENT) {
+      return this.translate.instant('listingEdit.rentOption');
+    } else if (this.listing.rentSale.valueOf() === rentSale.SALE.valueOf()) {
+      return this.translate.instant('listingEdit.saleOption');
+    }
+    return 'Not Found'; // Fallback value
   }
 }
