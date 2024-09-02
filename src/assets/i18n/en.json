@@ -1,6 +1,8 @@
 {
   "loginWelcome": "Welcome to the Dashboard!",
   "discover": "Discover",
+  "yes": "Yes",
+  "no": "No",
   "login": {
     "email": "Email",
     "password": "Password",
@@ -86,7 +88,11 @@
     "errorTitle": "Error",
     "unableToRetrieveData": "Unable to retrieve data.",
     "loginSuccess": "You have successfully logged in.",
-    "loginFailed": "Login failed. Please check your credentials."
+    "loginFailed": "Login failed. Please check your credentials.",
+    "listingCreateSuccess": "Successfully created listing.",
+    "listingCreateError": "Error creating the listing.",
+    "genericSuccess": "Operation succesfull.",
+    "genericError": "Operation failed."
   },
   "listingDetails": {
     "title": "Listing Details",

@@ -69,12 +69,24 @@ export class RegisterComponent {
             this.toastService.showToast(
               'success',
               this.translate.instant('toastMessages.successTitle'),
-              response.body.message
+              this.translate.instant('toastMessages.genericSuccess')
             );
           }
         },
         error: (err) => {
-          this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), err.error);
+          if (err.status === 409) {
+            this.toastService.showToast(
+              'error',
+              this.translate.instant('toastMessages.errorTitle'),
+              this.translate.instant('toastMessages.emailInUse')
+            );
+          } else {
+            this.toastService.showToast(
+              'error',
+              this.translate.instant('toastMessages.errorTitle'),
+              this.translate.instant('toastMessages.genericError')
+            );
+          }
           this.loading = false;
         },
       });

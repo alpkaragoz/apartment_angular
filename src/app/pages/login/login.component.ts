@@ -31,8 +31,8 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
         <app-theme-toggle />
         <div class="login-container">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <h1>⌂</h1>
-            <div>
+            <div class="login-logo"></div>
+            <div class="input-fields">
               <label for="email">{{ 'login.email' | translate }}</label>
               <input id="email" formControlName="email" type="email" />
               <label for="password">{{ 'login.password' | translate }}</label>

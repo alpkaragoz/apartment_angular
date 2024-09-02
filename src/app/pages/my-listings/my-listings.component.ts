@@ -84,8 +84,12 @@ export class MyListingsComponent implements OnInit, OnDestroy {
           this.myListings = response.body.listings;
         }
       },
-      error: (err) => {
-        this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), err.error.message);
+      error: () => {
+        this.toastService.showToast(
+          'error',
+          this.translate.instant('toastMessages.errorTitle'),
+          this.translate.instant('toastMessages.unableToRetrieveData')
+        );
       },
     });
   }

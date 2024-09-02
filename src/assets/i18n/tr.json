@@ -1,6 +1,8 @@
 {
   "loginWelcome": "Pano'ya Hoş Geldiniz!",
   "discover": "Keşfet",
+  "yes": "Evet",
+  "no": "Hayır",
   "login": {
     "email": "E-posta",
     "password": "Şifre",
@@ -87,7 +89,12 @@
     "errorTitle": "Hata",
     "unableToRetrieveData": "Veri alınamadı.",
     "loginSuccess": "Başarıyla giriş yaptınız.",
-    "loginFailed": "Giriş başarısız. Lütfen bilgilerinizi kontrol edin."
+    "loginFailed": "Giriş başarısız. Lütfen bilgilerinizi kontrol edin.",
+    "listingCreateSuccess": "İlan oluşturuldu.",
+    "listingCreateError": "İlan oluşturmada bir hata oluştu.",
+    "genericSuccess": "İşlem başarılı.",
+    "genericError": "İşlem başarısız.",
+    "emailInUse": "Email başka bir hesap tarafından kullanılıyor."
   },
   "listingDetails": {
     "title": "İlan Detayları",

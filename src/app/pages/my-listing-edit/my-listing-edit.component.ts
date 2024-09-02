@@ -142,13 +142,17 @@ export class MyListingEditComponent implements OnInit {
             this.toastService.showToast(
               'success',
               this.translate.instant('toastMessages.successTitle'),
-              response.body.message
+              this.translate.instant('toastMessages.genericSuccess')
             );
             this.location.back();
           }
         },
-        error: (error) => {
-          this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), error.error.message);
+        error: () => {
+          this.toastService.showToast(
+            'error',
+            this.translate.instant('toastMessages.errorTitle'),
+            this.translate.instant('toastMessages.genericError')
+          );
         },
       });
     }
@@ -162,13 +166,17 @@ export class MyListingEditComponent implements OnInit {
           this.toastService.showToast(
             'success',
             this.translate.instant('toastMessages.successTitle'),
-            response.body.message
+            this.translate.instant('toastMessages.genericSuccess')
           );
           this.location.back();
         }
       },
-      error: (error) => {
-        this.toastService.showToast('error', this.translate.instant('toastMessages.errorTitle'), error.error.message);
+      error: () => {
+        this.toastService.showToast(
+          'error',
+          this.translate.instant('toastMessages.errorTitle'),
+          this.translate.instant('toastMessages.genericError')
+        );
       },
     });
   }

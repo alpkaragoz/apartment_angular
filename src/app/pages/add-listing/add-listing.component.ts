@@ -116,15 +116,17 @@ export class AddListingComponent {
         next: (response) => {
           if (response.status === 200 && response.body != null) {
             const successTitle = this.translate.instant('toastMessages.successTitle');
-            this.toastService.showToast('success', successTitle, response.body.message);
+            const successMessage = this.translate.instant('toastMessages.listingCreateSuccess');
+            this.toastService.showToast('success', successTitle, successMessage);
             this.loading = false;
             this.closeListing();
           }
         },
-        error: (err) => {
+        error: () => {
           this.loading = false;
           const errorTitle = this.translate.instant('toastMessages.errorTitle');
-          this.toastService.showToast('error', errorTitle, err.error);
+          const errorMessage = this.translate.instant('toastMessages.listingCreateError');
+          this.toastService.showToast('error', errorTitle, errorMessage);
         },
       });
     }

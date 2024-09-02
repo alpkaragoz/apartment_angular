@@ -24,6 +24,17 @@ app-theme-toggle {
   z-index: 20;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-fields {
+  width: 100%;
+}
+
 .login-container {
   width: 400px;
   padding: 20px;
@@ -32,12 +43,6 @@ app-theme-toggle {
   border-radius: 10px;
   box-shadow: 0 0 10px rgb(0 0 0 / 10%);
   background-color: var(--background-main);
-}
-
-.login-container h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: var(--secondary-color);
 }
 
 .login-container div {
@@ -85,6 +90,16 @@ app-theme-toggle {
   z-index: 0;
 }
 
+.login-logo {
+  background-image: url('../../../assets/images/app_logo.png');
+  color: wheat;
+  width: 100px;
+  height: 100px;
+  background-size: cover; /* Ensures the image covers the entire div */
+  background-position: center; /* Centers the image within the div */
+  background-repeat: no-repeat;
+}
+
 .backdrop {
   opacity: var(--login-opacity);
   position: fixed;
@@ -96,6 +111,7 @@ app-theme-toggle {
 }
 
 .button-group {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;

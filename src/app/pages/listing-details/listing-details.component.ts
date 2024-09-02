@@ -44,11 +44,11 @@ import { rentSale } from '../../models/rent-sale';
         </div>
         <div class="info-item">
           <span class="label">{{ 'listingDetails.hasFurniture' | translate }}:</span>
-          <span>{{ listing.hasFurniture ? 'Yes' : ('No' | translate) }}</span>
+          <span>{{ getTranslatedBoolean(listing.hasFurniture) }}</span>
         </div>
         <div class="info-item">
           <span class="label">{{ 'listingDetails.hasBalcony' | translate }}:</span>
-          <span>{{ listing.hasBalcony ? 'Yes' : ('No' | translate) }}</span>
+          <span>{{ getTranslatedBoolean(listing.hasBalcony) }}</span>
         </div>
         <div class="info-item">
           <span class="label">{{ 'listingDetails.bathroomNumber' | translate }}:</span>
@@ -94,6 +94,14 @@ export class ListingDetailsComponent implements OnInit {
       return this.translate.instant('listingEdit.saleOption');
     }
     return 'Not Found'; // Fallback value
+  }
+
+  getTranslatedBoolean(boolean: boolean): string {
+    if (boolean) {
+      return this.translate.instant('yes');
+    } else {
+      return this.translate.instant('no');
+    }
   }
 
   closeTab() {
