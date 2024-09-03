@@ -92,7 +92,8 @@
     "listingCreateSuccess": "Successfully created listing.",
     "listingCreateError": "Error creating the listing.",
     "genericSuccess": "Operation succesfull.",
-    "genericError": "Operation failed."
+    "genericError": "Operation failed.",
+    "emailInUse": "Email is already in-use."
   },
   "listingDetails": {
     "title": "Listing Details",
