@@ -1,11 +1,12 @@
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [ReactiveFormsModule, TranslateModule],
+  imports: [ReactiveFormsModule, TranslateModule, DecimalPipe, CommonModule, FormsModule],
   template: `
     <form class="search-form" [formGroup]="searchGroup">
       <div>
@@ -33,6 +34,7 @@ import { TranslateModule } from '@ngx-translate/core';
         <input
           id="maxPrice"
           type="number"
+          value="{{ searchGroup.get('maxPriceControl')?.value | number: '1.0-0' }}"
           [placeholder]="'searchBar.placeholders.maxPrice' | translate"
           formControlName="maxPriceControl"
           (input)="onFilter()"
@@ -70,6 +72,7 @@ export class SearchBarComponent {
   });
 
   @Output() filter = new EventEmitter<FormGroup>();
+  value1 = 0;
 
   onFilter() {
     this.filter.emit(this.searchGroup);

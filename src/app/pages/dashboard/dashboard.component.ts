@@ -39,6 +39,7 @@ import { rentSale } from '../../models/rent-sale';
           <app-listing-box
             *ngFor="let listing of listingsOnCurrentPage"
             [listing]="listing"
+            [likedListings]="likedListings"
             (listingClicked)="openListingDetails($event)"
           >
           </app-listing-box>
@@ -61,6 +62,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   maxPrice = Infinity;
   address = '';
   listingName = '';
+  likedListings: Set<number> = new Set<number>();
 
   constructor(
     private router: Router,
@@ -69,6 +71,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetchApartmentList();
+    this.fetchLikedListings();
     this.subscriptions.add(
       this.apiService.listingUpdated$.subscribe(() => {
         this.fetchApartmentList();
@@ -97,6 +100,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.totalPages = response.body.totalPages;
         }
       });
+  }
+
+  fetchLikedListings() {
+    this.apiService.getLikedListings().subscribe(
+      (likedListingIds) => {
+        this.likedListings = new Set(likedListingIds);
+      },
+      (error) => {
+        console.error('Failed to fetch liked listings', error);
+      }
+    );
   }
 
   filterListings(filterValues: FormGroup) {

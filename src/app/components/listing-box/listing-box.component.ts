@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ApartmentListing } from '../../models/apartment-listing';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -33,17 +33,26 @@ import { TranslateService } from '@ngx-translate/core';
             </div>
           </div>
         </div>
+        <span class="like-icon">
+          <i [ngClass]="isLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+        </span>
       </div>
       <ng-content></ng-content>
     </div>
   `,
   styleUrls: ['./listing-box.component.css'],
 })
-export class ListingBoxComponent {
+export class ListingBoxComponent implements OnInit {
   @Input() listing!: ApartmentListing;
+  @Input() likedListings!: Set<number>;
   @Output() listingClicked = new EventEmitter<ApartmentListing>();
+  isLiked = false;
 
   constructor(private translate: TranslateService) {}
+
+  ngOnInit() {
+    this.isLiked = this.likedListings.has(this.listing.id); // Check if the listing is liked
+  }
 
   onClick() {
     this.listingClicked.emit(this.listing);

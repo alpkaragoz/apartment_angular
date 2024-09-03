@@ -119,6 +119,25 @@ export class ApiService {
     });
   }
 
+  getLikedListings(): Observable<number[]> {
+    const headers = { Authorization: `Bearer ${this.getToken()}` };
+    const userId = this.getId();
+    const apiUrl = `http://localhost:8080/api/users/${userId}/favorites`;
+    return this.http.get<number[]>(apiUrl, { headers });
+  }
+
+  addFavorite(userId: number, listingId: number): Observable<MessageRequestDTO> {
+    const headers = { Authorization: `Bearer ${this.getToken()}` };
+    const apiUrl = `http://localhost:8080/api/favorites?userId=${userId}&listingId=${listingId}`;
+    return this.http.post<MessageRequestDTO>(apiUrl, { headers });
+  }
+
+  removeFavorite(userId: number, listingId: number): Observable<MessageRequestDTO> {
+    const headers = { Authorization: `Bearer ${this.getToken()}` };
+    const apiUrl = `http://localhost:8080/api/favorites?userId=${userId}&listingId=${listingId}`;
+    return this.http.delete<MessageRequestDTO>(apiUrl, { headers });
+  }
+
   saveCredentials(token: string, id: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
     localStorage.setItem(this.ID_KEY, id);
