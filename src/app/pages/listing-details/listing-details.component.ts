@@ -12,7 +12,7 @@ import { rentSale } from '../../models/rent-sale';
   standalone: true,
   imports: [ToastModule, DecimalPipe, TranslateModule],
   template: `
-    <div class="listing-backdrop"></div>
+    <div role="button" class="listing-backdrop" (keydown)="closeTab()" (click)="closeTab()" tabindex="0"></div>
     <p-toast></p-toast>
     <div class="listing-content">
       <button class="close-button" (click)="closeTab()">✕</button>

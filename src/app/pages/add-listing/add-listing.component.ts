@@ -11,7 +11,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ButtonModule, TranslateModule],
   template: `
-    <div class="listing-backdrop"></div>
+    <div role="button" class="listing-backdrop" (keydown)="closeListing()" (click)="closeListing()" tabindex="0"></div>
     <div class="listing-content">
       <button class="close-button" (click)="closeListing()">✕</button>
       <h2>{{ 'addListing.title' | translate }}</h2>

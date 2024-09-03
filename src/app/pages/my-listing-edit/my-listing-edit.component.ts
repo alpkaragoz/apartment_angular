@@ -15,7 +15,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [ToastModule, DecimalPipe, MatIconModule, CommonModule, ReactiveFormsModule, ButtonModule, TranslateModule],
   template: `
-    <div class="listing-backdrop"></div>
+    <div role="button" class="listing-backdrop" (keydown)="closeTab()" (click)="closeTab()" tabindex="0"></div>
     <p-toast></p-toast>
     <div class="listing-content">
       <button class="close-button" (click)="closeTab()">✕</button>
