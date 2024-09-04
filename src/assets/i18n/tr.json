@@ -94,7 +94,8 @@
     "listingCreateError": "İlan oluşturmada bir hata oluştu.",
     "genericSuccess": "İşlem başarılı.",
     "genericError": "İşlem başarısız.",
-    "emailInUse": "Email başka bir hesap tarafından kullanılıyor."
+    "emailInUse": "Email başka bir hesap tarafından kullanılıyor.",
+    "favoritesUpdate": "Favoriler güncellendi."
   },
   "listingDetails": {
     "title": "İlan Detayları",

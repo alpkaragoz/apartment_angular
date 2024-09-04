@@ -103,14 +103,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   fetchLikedListings() {
-    this.apiService.getLikedListings().subscribe(
-      (likedListingIds) => {
+    this.apiService.getLikedListings().subscribe({
+      next: (likedListingIds) => {
         this.likedListings = new Set(likedListingIds);
       },
-      (error) => {
+      error: (error) => {
         console.error('Failed to fetch liked listings', error);
-      }
-    );
+      },
+    });
   }
 
   filterListings(filterValues: FormGroup) {

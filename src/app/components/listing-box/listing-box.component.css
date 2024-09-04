@@ -18,9 +18,14 @@
 
 .like-icon {
   position: absolute;
-  bottom: 10px;
-  right: 20px;
+  top: 10px;
+  right: 15px;
   color: rgb(255 0 0 / 75%);
+  font-size: 20px;
+}
+
+.like-icon:hover {
+  cursor: copy;
 }
 
 .box:hover {
