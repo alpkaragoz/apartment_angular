@@ -30,7 +30,12 @@ import { rentSale } from '../../models/rent-sale';
   template: `
     <p-toast />
     <div id="dashboard-container">
-      <app-top-bar (addListing)="openAddListing()" (logout)="logout()" (myListings)="openMyListings()" />
+      <app-top-bar
+        (addListing)="openAddListing()"
+        (logout)="logout()"
+        (myListings)="openMyListings()"
+        (dataPanel)="openDataPanel()"
+      />
       <h2>{{ 'loginWelcome' | translate }}</h2>
       <div id="discover-section">
         <app-search-bar (filter)="filterListings($event)" />
@@ -168,5 +173,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   openMyListings() {
     this.router.navigate(['/my-listings']);
+  }
+
+  openDataPanel() {
+    this.router.navigate(['/data-panel']);
   }
 }

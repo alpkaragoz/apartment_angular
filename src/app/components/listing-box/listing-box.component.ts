@@ -74,6 +74,7 @@ export class ListingBoxComponent implements OnInit {
             this.translate.instant('toastMessages.successTitle'),
             this.translate.instant('toastMessages.favoritesUpdate')
           );
+          this.isLiked = !this.isLiked;
         },
         error: () => {
           this.toastService.showToast(
@@ -91,6 +92,7 @@ export class ListingBoxComponent implements OnInit {
             this.translate.instant('toastMessages.successTitle'),
             this.translate.instant('toastMessages.favoritesUpdate')
           );
+          this.isLiked = !this.isLiked;
         },
         error: () => {
           this.toastService.showToast(
@@ -101,7 +103,6 @@ export class ListingBoxComponent implements OnInit {
         },
       });
     }
-    this.isLiked = !this.isLiked;
   }
 
   getTranslatedRentSale(): string {

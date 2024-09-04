@@ -7,6 +7,7 @@ import { MessageRequestDTO } from '../dto/message-request-dto';
 import { MyListingsRequestDTO } from '../dto/my-listings-request-dto';
 import { rentSale } from '../models/rent-sale';
 import { FilteredListingsRequestDto } from '../dto/filtered-listings-request-dto';
+import { ListingWithLikesDto } from '../dto/listing-with-likes-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -138,6 +139,13 @@ export class ApiService {
     const userId = this.getId();
     const apiUrl = `http://localhost:8080/api/favorites?userId=${userId}&listingId=${listingId}`;
     return this.http.delete<MessageRequestDTO>(apiUrl, { headers });
+  }
+
+  getListingsWithLikes(): Observable<HttpResponse<ListingWithLikesDto[]>> {
+    const headers = { Authorization: `Bearer ${this.getToken()}` };
+    const userId = this.getId();
+    const apiUrl = `http://localhost:8080/api/favorites/listings?userId=${userId}`;
+    return this.http.get<ListingWithLikesDto[]>(apiUrl, { headers, observe: 'response' });
   }
 
   saveCredentials(token: string, id: string): void {

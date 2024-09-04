@@ -11,9 +11,9 @@ import { TranslateModule } from '@ngx-translate/core';
     <div class="top-bar">
       <button (click)="onAddListing()" class="top-bar-button">{{ 'topBar.addListing' | translate }}</button>
       <button (click)="onMyListings()" class="top-bar-button">{{ 'topBar.myListings' | translate }}</button>
+      <button (click)="onDataPanel()" class="top-bar-button">{{ 'topBar.data' | translate }}</button>
       <button (click)="onLogout()" class="logout-button">{{ 'topBar.logout' | translate }}</button>
       <app-theme-toggle />
-      <!-- Language toggle button -->
       <button (click)="toggleLanguage()" class="language-toggle-button">
         <i class="language-icon"></i>
       </button>
@@ -24,6 +24,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class TopBarComponent {
   @Output() addListing = new EventEmitter<void>();
   @Output() myListings = new EventEmitter<void>();
+  @Output() dataPanel = new EventEmitter<void>();
   @Output() logout = new EventEmitter<void>();
 
   constructor(private languageService: LanguageService) {}
@@ -40,6 +41,10 @@ export class TopBarComponent {
 
   onMyListings() {
     this.myListings.emit();
+  }
+
+  onDataPanel() {
+    this.dataPanel.emit();
   }
 
   onLogout() {

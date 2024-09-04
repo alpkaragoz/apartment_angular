@@ -8,6 +8,7 @@ import { MyListingDetailsComponent } from './pages/my-listing-details/my-listing
 import { ListingDetailsComponent } from './pages/listing-details/listing-details.component';
 import { MyListingEditComponent } from './pages/my-listing-edit/my-listing-edit.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { DataPanelComponent } from './pages/data-panel/data-panel.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -46,4 +47,5 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: 'data-panel', component: DataPanelComponent, canActivate: [AuthguardService] },
 ];

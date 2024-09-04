@@ -48,7 +48,8 @@
   "topBar": {
     "addListing": "İlan Ekle",
     "myListings": "İlanlarım",
-    "logout": "Çıkış Yap"
+    "logout": "Çıkış Yap",
+    "data": "Veri Paneli"
   },
 
   "addListing": {

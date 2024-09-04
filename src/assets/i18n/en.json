@@ -48,7 +48,8 @@
   "topBar": {
     "addListing": "Add Listing",
     "myListings": "My Listings",
-    "logout": "Log-Out"
+    "logout": "Log-Out",
+    "data": "Data Panel"
   },
   "addListing": {
     "title": "Add Listing",
