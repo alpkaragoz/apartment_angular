@@ -23,6 +23,7 @@
     "@angular/router": "^18.1.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "@syncfusion/ej2-angular-charts": "^26.2.12",
     "chart.js": "^4.4.4",
     "primeng": "^17.18.7",
     "rxjs": "~7.8.0",

@@ -3,19 +3,23 @@ import { BarChartComponent } from '../../components/bar-chart/bar-chart.componen
 import { CommonModule } from '@angular/common';
 import { ListingWithLikesDto } from '../../dto/listing-with-likes-dto';
 import { ApiService } from '../../service/api.service';
+import { SyncBarChartComponent } from '../../components/sync-bar-chart/sync-bar-chart.component';
+import { PieChartComponent } from '../../components/sync-pie-chart/sync-pie-chart.component';
 
 @Component({
   selector: 'app-data-panel',
   standalone: true,
-  imports: [CommonModule, BarChartComponent],
+  imports: [CommonModule, BarChartComponent, SyncBarChartComponent, PieChartComponent],
   template: `
     <div id="background">
       <div class="chartjs-container">
-        <h2>Chart.js Container</h2>
+        <h2>Chart.js</h2>
         <app-bar-chart [listings]="listingsData"></app-bar-chart>
       </div>
       <div class="sync-container">
-        <h2>Syncfusion Container</h2>
+        <h2>Syncfusion</h2>
+        <app-sync-bar-chart [listings]="listingsData"></app-sync-bar-chart>
+        <app-sync-pie-chart [listings]="listingsData"></app-sync-pie-chart>
       </div>
     </div>
   `,
