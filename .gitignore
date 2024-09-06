@@ -171,3 +171,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Ignore environment files
+/src/environment/environment.ts
+/src/environment/environment.prod.ts
